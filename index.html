@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCFHS Nurse Technician Licensing Examination Simulator (220 Master Expert Tier)</title>
+    <title>SCFHS Nurse Technician Master Licensing Examination</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,856 +12,1218 @@
             theme: {
                 extend: {
                     colors: {
-                        prometric: {
-                            blue: '#002B49',
-                            teal: '#008080',
-                            gold: '#C59B27',
-                            lightBg: '#F8FAFC',
-                            darkBg: '#0B0F19',
-                            cardDark: '#1E293B',
-                            accentRed: '#DC2626'
+                        scfhs: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#0f172a'
                         }
                     }
                 }
             }
         }
     </script>
-    <!-- FontAwesome CDN -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        body { font-family: 'Inter', sans-serif; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.05); }
-        ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.25); border-radius: 3px; }
-        .font-sz-sm { font-size: 0.875rem; }
-        .font-sz-md { font-size: 1rem; }
-        .font-sz-lg { font-size: 1.125rem; }
-        .font-sz-xl { font-size: 1.25rem; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.2); border-radius: 4px; }
+        .dark ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+        .dark ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); }
         @media print {
             .no-print { display: none !important; }
             .print-only { display: block !important; }
-            body { background: white !important; color: black !important; }
         }
     </style>
 </head>
-<body class="h-full bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-100 font-sans flex flex-col transition-colors duration-200 select-none">
+<body class="bg-gray-50 dark:bg-slate-900 text-gray-800 dark:text-gray-100 h-full flex flex-col transition-colors duration-200">
 
-    <header class="bg-prometric-blue text-white shadow-lg sticky top-0 z-30 border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap justify-between items-center text-xs md:text-sm">
+    <!-- TOP HEADER / PROMETRIC NAVIGATION BAR -->
+    <header class="bg-scfhs-800 dark:bg-slate-950 text-white shadow-md z-20 sticky top-0 no-print">
+        <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap justify-between items-center gap-4">
+            <!-- Brand & Exam Title -->
             <div class="flex items-center space-x-3">
-                <div class="bg-white/10 p-2 rounded-md flex items-center justify-center border border-white/20">
-                    <i class="fa-solid fa-user-nurse text-prometric-gold text-xl"></i>
+                <div class="bg-white text-scfhs-800 p-2 rounded-lg font-bold text-lg flex items-center justify-center h-10 w-10 shrink-0">
+                    <i class="fa-solid fa-user-nurse text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold tracking-wide text-sm md:text-base text-white">SCFHS NURSE TECHNICIAN MASTER EXAM (COMPLEX TIE-BREAKERS & LINGUISTIC TRAPS)</h1>
-                    <p class="text-slate-300 text-xs flex items-center space-x-2">
-                        <span>Candidate: <span class="font-mono text-prometric-gold font-semibold">SCFHS-TECH-MASTER-2026</span></span>
-                        <span class="text-slate-500">|</span>
-                        <span>Level: <span class="text-emerald-400 font-semibold">Nurse Technician / Practical Nurse Master Specialist</span></span>
-                    </p>
+                    <h1 class="font-bold text-base md:text-lg leading-tight">SCFHS Nurse Technician Exam</h1>
+                    <p class="text-xs text-scfhs-100 opacity-80">Saudi Commission for Health Specialties • ID: <span class="font-mono text-amber-300">NT-998204</span></p>
                 </div>
             </div>
 
-            <div class="flex items-center space-x-3 mt-2 md:mt-0">
-                <div id="timerContainer" class="bg-slate-950/80 border border-slate-700 px-3 py-1.5 rounded flex items-center space-x-2 shadow-inner">
-                    <i class="fa-regular fa-clock text-prometric-gold animate-pulse"></i>
-                    <span id="timerDisplay" class="font-mono text-base font-bold text-white">04:00:00</span>
+            <!-- Timer & Actions -->
+            <div class="flex items-center space-x-2 md:space-x-4">
+                <!-- Countdown Timer -->
+                <div class="bg-scfhs-900/80 dark:bg-slate-900/90 px-3.5 py-1.5 rounded-lg border border-scfhs-600/40 flex items-center space-x-2.5">
+                    <i class="fa-regular fa-clock text-amber-400 text-lg"></i>
+                    <div>
+                        <div class="text-[9px] uppercase font-semibold text-gray-300">Time Remaining</div>
+                        <div id="timer-display" class="font-mono text-base md:text-lg font-bold tracking-wider text-white">04:00:00</div>
+                    </div>
+                    <button id="pause-timer-btn" onclick="togglePauseTimer()" class="text-xs text-gray-300 hover:text-white ml-1 p-1" title="Pause Timer">
+                        <i id="pause-icon" class="fa-solid fa-pause"></i>
+                    </button>
                 </div>
 
-                <div class="hidden sm:flex items-center bg-slate-800 rounded p-0.5 border border-slate-700">
-                    <button onclick="changeFontSize('sm')" class="px-2 py-1 text-xs hover:bg-slate-700 rounded text-slate-300">A-</button>
-                    <button onclick="changeFontSize('md')" class="px-2 py-1 text-xs hover:bg-slate-700 rounded font-bold text-white">A</button>
-                    <button onclick="changeFontSize('lg')" class="px-2 py-1 text-xs hover:bg-slate-700 rounded text-sm text-slate-300">A+</button>
-                </div>
+                <!-- Calculator Button -->
+                <button onclick="toggleModal('calc-modal')" class="p-2 bg-scfhs-700 hover:bg-scfhs-600 rounded-lg text-sm flex items-center gap-1.5 transition" title="Dosage & Clinical Calculator">
+                    <i class="fa-solid fa-calculator text-amber-300"></i>
+                    <span class="hidden sm:inline text-xs font-medium">Calculator</span>
+                </button>
 
-                <button onclick="toggleDarkMode()" class="p-2 hover:bg-white/10 rounded-full text-slate-200 hover:text-white transition" title="Toggle Theme">
-                    <i class="fa-solid fa-moon text-sm" id="themeIcon"></i>
+                <!-- Theme Toggle -->
+                <button onclick="toggleDarkMode()" class="p-2 bg-scfhs-700 hover:bg-scfhs-600 rounded-lg text-sm transition" title="Toggle Light/Dark Theme">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+
+                <!-- Finish Exam Button -->
+                <button onclick="confirmSubmitExam()" class="bg-red-600 hover:bg-red-700 text-white px-3.5 py-2 rounded-lg font-semibold text-xs md:text-sm transition shadow-sm flex items-center gap-1.5">
+                    <i class="fa-solid fa-flag-checkered"></i>
+                    <span>Submit Exam</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <div id="examContainer" class="flex-1 flex overflow-hidden relative">
+    <!-- MAIN INTERFACE -->
+    <main id="app-container" class="flex-1 max-w-7xl w-full mx-auto p-3 md:p-6 flex flex-col gap-6 overflow-hidden">
         
-        <!-- SIDE NAVIGATION DRAWER (QUESTION GRID) -->
-        <aside id="navDrawer" class="w-80 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col transition-all duration-300 z-20 absolute md:relative inset-y-0 left-0 -translate-x-full md:translate-x-0 shadow-2xl md:shadow-none">
-            <div class="p-3 bg-slate-100 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
-                <span class="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">220 Items Grid</span>
-                <span class="text-xs bg-slate-200 dark:bg-slate-700 px-2.5 py-0.5 rounded-full font-bold text-prometric-blue dark:text-sky-400" id="completionCounter">0 / 220</span>
-                <button onclick="toggleNavDrawer()" class="md:hidden text-slate-500 hover:text-slate-700 dark:text-slate-400">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <div class="p-2 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 grid grid-cols-3 gap-1 text-[11px] text-center">
-                <div class="flex items-center justify-center space-x-1">
-                    <span class="w-3 h-3 bg-white border border-slate-300 dark:bg-slate-800 dark:border-slate-600 rounded-sm inline-block"></span>
-                    <span>Unanswered</span>
-                </div>
-                <div class="flex items-center justify-center space-x-1">
-                    <span class="w-3 h-3 bg-emerald-600 rounded-sm inline-block"></span>
-                    <span>Answered</span>
-                </div>
-                <div class="flex items-center justify-center space-x-1">
-                    <span class="w-3 h-3 bg-amber-500 rounded-sm inline-block"></span>
-                    <span>Flagged</span>
-                </div>
-            </div>
-
-            <!-- Scrollable Question Grid Buttons -->
-            <div class="flex-1 overflow-y-auto p-3 grid grid-cols-5 gap-1.5 align-content-start" id="questionGrid"></div>
-
-            <div class="p-3 bg-slate-50 dark:bg-slate-900/80 border-t border-slate-200 dark:border-slate-700 text-xs space-y-1">
-                <p class="font-bold text-slate-700 dark:text-slate-300 mb-1">SCFHS Tech Blueprint:</p>
-                <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400"><span>Fundamental Nursing Care</span><span class="font-semibold text-slate-700 dark:text-slate-200">30%</span></div>
-                <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400"><span>Clinical Med-Surg Tech</span><span class="font-semibold text-slate-700 dark:text-slate-200">30%</span></div>
-                <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400"><span>Maternal & Pediatric Tech</span><span class="font-semibold text-slate-700 dark:text-slate-200">20%</span></div>
-                <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400"><span>Patient Safety & Ethics</span><span class="font-semibold text-slate-700 dark:text-slate-200">10%</span></div>
-                <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400"><span>Emergency First Response</span><span class="font-semibold text-slate-700 dark:text-slate-200">10%</span></div>
-            </div>
-        </aside>
-
-        <main class="flex-1 flex flex-col bg-white dark:bg-slate-900 overflow-y-auto" id="questionContentArea">
-            <div class="bg-slate-50 dark:bg-slate-800/60 px-4 py-2 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center text-xs md:text-sm">
-                <div class="flex items-center space-x-2">
-                    <button onclick="toggleNavDrawer()" class="md:hidden bg-slate-200 dark:bg-slate-700 px-2.5 py-1.5 rounded hover:bg-slate-300">
-                        <i class="fa-solid fa-bars"></i> Grid
-                    </button>
-                    <span class="font-bold text-prometric-blue dark:text-sky-400 text-xs md:text-sm" id="itemDomainTag">Domain: Loading...</span>
-                </div>
-
-                <div class="flex items-center space-x-2 md:space-x-3">
-                    <button onclick="toggleCalculator()" class="flex items-center space-x-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 px-3 py-1.5 rounded transition font-medium text-slate-700 dark:text-slate-200 text-xs">
-                        <i class="fa-solid fa-calculator text-prometric-blue dark:text-sky-400"></i>
-                        <span>Dosage Calculator</span>
-                    </button>
-
-                    <button id="flagBtn" onclick="toggleFlagCurrentQuestion()" class="flex items-center space-x-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-amber-100 text-slate-700 dark:text-slate-200 px-3 py-1.5 rounded transition font-medium border border-transparent text-xs">
-                        <i class="fa-regular fa-flag text-amber-500" id="flagIcon"></i>
-                        <span id="flagText">Mark for Review</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- QUESTION CARD -->
-            <div class="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full flex flex-col font-sz-md" id="questionTextContainer">
-                <div class="flex justify-between items-center mb-4 pb-2 border-b border-slate-200 dark:border-slate-800">
-                    <span class="text-xs uppercase tracking-wider font-extrabold text-prometric-blue dark:text-sky-400" id="qNumberDisplay">Question 1 of 220</span>
-                    <span class="text-xs bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full text-slate-500 font-mono" id="questionIdDisplay">Item ID: SCFHS-TECH-MASTER-001</span>
-                </div>
-
-                <div class="mb-6 leading-relaxed text-slate-800 dark:text-slate-100 font-medium select-text" id="vignetteDisplay"></div>
-
-                <div class="space-y-3 mb-8" id="optionsContainer"></div>
-            </div>
-
-            <!-- FOOTER CONTROLS -->
-            <footer class="bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-3 md:px-8 flex justify-between items-center sticky bottom-0 z-10">
-                <div>
-                    <button onclick="clearCurrentAnswer()" class="text-xs md:text-sm text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 font-medium flex items-center space-x-1">
-                        <i class="fa-solid fa-rotate-left"></i>
-                        <span>Clear Selection</span>
-                    </button>
-                </div>
-
-                <div class="flex items-center space-x-2 md:space-x-4">
-                    <button id="prevBtn" onclick="navigateQuestion(-1)" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 rounded font-semibold text-xs md:text-sm transition flex items-center space-x-2 disabled:opacity-50">
-                        <i class="fa-solid fa-chevron-left"></i>
-                        <span>Previous</span>
-                    </button>
-
-                    <button id="nextBtn" onclick="navigateQuestion(1)" class="px-5 py-2 bg-prometric-blue text-white hover:bg-slate-800 rounded font-semibold text-xs md:text-sm transition flex items-center space-x-2">
-                        <span>Next</span>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-
-                    <button onclick="confirmSubmitModal()" class="ml-4 px-5 py-2 bg-emerald-600 text-white hover:bg-emerald-700 rounded font-bold text-xs md:text-sm shadow-md transition">
-                        Submit Exam
-                    </button>
-                </div>
-            </footer>
-        </main>
-    </div>
-
-    <div id="resultsContainer" class="hidden flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-900 p-4 md:p-8">
-        <div class="max-w-6xl mx-auto space-y-8">
-            <div id="scoreBanner" class="p-6 rounded-xl shadow-xl border text-white flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-widest text-slate-200">Official SCFHS Psychometric Evaluation</span>
-                    <h2 id="passFailText" class="text-3xl font-extrabold mt-1">CALCULATING...</h2>
-                    <p class="text-sm opacity-90 mt-1">Passing Cut-Score: 60% | Nurse Technician Master Standard</p>
-                </div>
-                <div class="text-center md:text-right flex items-center space-x-6">
-                    <div>
-                        <p class="text-5xl font-black font-mono" id="scorePercentage">0%</p>
-                        <p class="text-xs uppercase opacity-80" id="scoreRatio">0 / 220 Correct</p>
-                    </div>
-                    <div id="badgeIcon" class="text-5xl">
-                        <i class="fa-solid fa-award text-prometric-gold"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex flex-wrap justify-between items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
-                <div class="flex items-center space-x-2">
-                    <span class="font-bold text-xs uppercase tracking-wider text-slate-600 dark:text-slate-300">Filter Review:</span>
-                    <button onclick="setReviewFilter('all')" class="review-filter-btn px-3 py-1 bg-prometric-blue text-white rounded text-xs font-medium" data-filter="all">All (220)</button>
-                    <button onclick="setReviewFilter('incorrect')" class="review-filter-btn px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-xs font-medium" data-filter="incorrect">Incorrect Only</button>
-                    <button onclick="setReviewFilter('flagged')" class="review-filter-btn px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-xs font-medium" data-filter="flagged">Flagged Items</button>
-                </div>
-                <div class="flex items-center space-x-2 no-print">
-                    <button onclick="window.print()" class="px-3.5 py-1.5 border border-slate-300 dark:border-slate-600 rounded text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center space-x-1.5">
-                        <i class="fa-solid fa-print"></i>
-                        <span>Print Report</span>
-                    </button>
-                    <button onclick="restartExam()" class="px-3.5 py-1.5 bg-prometric-blue text-white rounded text-xs font-semibold hover:bg-slate-800 flex items-center space-x-1.5">
-                        <i class="fa-solid fa-rotate-right"></i>
-                        <span>Retake Exam</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                <h3 class="font-bold text-base md:text-lg mb-4 text-slate-800 dark:text-slate-100 flex items-center space-x-2">
-                    <i class="fa-solid fa-chart-pie text-prometric-blue dark:text-sky-400"></i>
-                    <span>Domain Mastery Breakdown</span>
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="domainMetricsContainer"></div>
-            </div>
-
-            <div class="space-y-6" id="reviewListContainer"></div>
+        <!-- APP LOADING STATE -->
+        <div id="loading-screen" class="flex-1 flex flex-col justify-center items-center py-20">
+            <div class="animate-spin rounded-full h-16 w-16 border-4 border-scfhs-600 border-t-transparent"></div>
+            <p class="mt-4 text-gray-600 dark:text-gray-300 font-medium text-lg">Loading 220 Unique SCFHS Prometric Test Items...</p>
+            <p class="text-xs text-gray-400 mt-1">Calibrating item bank across 5 Saudi Licensing Blueprint Domains</p>
         </div>
-    </div>
+
+        <!-- EXAM INTERFACE -->
+        <div id="exam-screen" class="hidden flex-1 flex flex-col lg:flex-row gap-6 h-full min-h-0">
+            
+            <!-- LEFT PANEL: QUESTION ENGINE -->
+            <div class="flex-1 flex flex-col bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden">
+                <!-- Question Top Header -->
+                <div class="px-6 py-3.5 bg-gray-50 dark:bg-slate-800/80 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center flex-wrap gap-2">
+                    <div class="flex items-center space-x-2.5">
+                        <span id="q-number-badge" class="bg-scfhs-600 text-white px-3 py-1 rounded-full text-xs font-bold tracking-wide">
+                            Question 1 of 220
+                        </span>
+                        <span id="q-domain-badge" class="bg-blue-100 text-scfhs-800 dark:bg-slate-700 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-semibold">
+                            Domain
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <!-- Rationale Toggle Button -->
+                        <button id="toggle-rationale-btn" onclick="toggleCurrentRationale()" class="text-xs bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:bg-slate-700 dark:text-indigo-300 px-3 py-1.5 rounded-lg border border-indigo-200 dark:border-slate-600 transition font-medium flex items-center gap-1.5">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span id="rationale-btn-text">Show Explanation</span>
+                        </button>
+
+                        <!-- Flag Button -->
+                        <button id="flag-btn" onclick="toggleFlagCurrentQuestion()" class="flex items-center space-x-1.5 text-xs text-gray-600 hover:text-amber-600 dark:text-gray-300 dark:hover:text-amber-400 font-medium px-3 py-1.5 rounded-lg border border-gray-300 dark:border-slate-600 transition">
+                            <i id="flag-icon" class="fa-regular fa-bookmark"></i>
+                            <span id="flag-text">Flag</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stem and Options Scroll Area -->
+                <div class="flex-1 p-6 overflow-y-auto space-y-5">
+                    <!-- Item Stem -->
+                    <div id="q-stem" class="text-gray-900 dark:text-gray-100 text-base md:text-lg font-medium leading-relaxed">
+                        <!-- Stem injected via JS -->
+                    </div>
+
+                    <!-- Options Container -->
+                    <div id="q-options" class="space-y-3 pt-1">
+                        <!-- Options injected via JS -->
+                    </div>
+
+                    <!-- In-Exam Clinical Rationale Drawer -->
+                    <div id="rationale-drawer" class="hidden p-4 rounded-xl bg-amber-50/80 dark:bg-slate-900/80 border border-amber-200 dark:border-slate-700 space-y-1 text-sm mt-4">
+                        <div class="font-bold text-amber-800 dark:text-amber-400 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                            <i class="fa-solid fa-graduation-cap"></i> Clinical Rationale & Key Concept
+                        </div>
+                        <p id="rationale-content" class="text-gray-700 dark:text-gray-300 text-xs md:text-sm leading-relaxed pt-1">
+                            <!-- Rationale injected via JS -->
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Footer Navigation Bar -->
+                <div class="p-4 bg-gray-50 dark:bg-slate-800/80 border-t border-gray-200 dark:border-slate-700 flex justify-between items-center">
+                    <button id="prev-btn" onclick="navigateQuestion(-1)" class="px-5 py-2.5 rounded-lg bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 font-medium text-sm text-gray-700 dark:text-gray-200 flex items-center gap-2 transition disabled:opacity-40">
+                        <i class="fa-solid fa-chevron-left text-xs"></i> Previous
+                    </button>
+
+                    <div class="hidden sm:block text-xs text-gray-500 dark:text-gray-400">
+                        <i class="fa-solid fa-cloud-arrow-up text-scfhs-600 mr-1"></i> Auto-saved to Browser LocalStorage
+                    </div>
+
+                    <button id="next-btn" onclick="navigateQuestion(1)" class="px-6 py-2.5 rounded-lg bg-scfhs-600 hover:bg-scfhs-700 text-white font-medium text-sm flex items-center gap-2 transition shadow-sm">
+                        Next <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: QUESTION GRID NAVIGATOR -->
+            <div class="w-full lg:w-80 flex flex-col bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden max-h-[480px] lg:max-h-none shrink-0">
+                <div class="p-4 border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/80">
+                    <h2 class="font-bold text-xs text-gray-800 dark:text-gray-200 uppercase tracking-wider mb-3">Question Navigator</h2>
+                    
+                    <!-- Stats Grid -->
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs mb-3">
+                        <div class="bg-emerald-50 dark:bg-emerald-950/40 p-2 rounded border border-emerald-100 dark:border-emerald-900">
+                            <span class="block font-bold text-emerald-700 dark:text-emerald-400" id="stat-answered">0</span>
+                            <span class="text-[10px] text-gray-500 dark:text-gray-400">Answered</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-slate-700/60 p-2 rounded">
+                            <span class="block font-bold text-gray-700 dark:text-gray-200" id="stat-unanswered">220</span>
+                            <span class="text-[10px] text-gray-500 dark:text-gray-400">Remaining</span>
+                        </div>
+                        <div class="bg-amber-50 dark:bg-amber-950/40 p-2 rounded border border-amber-200 dark:border-amber-800">
+                            <span class="block font-bold text-amber-600 dark:text-amber-400" id="stat-flagged">0</span>
+                            <span class="text-[10px] text-amber-600 dark:text-amber-400">Flagged</span>
+                        </div>
+                    </div>
+
+                    <!-- Grid Filter Tabs -->
+                    <div class="flex rounded-lg bg-gray-200 dark:bg-slate-700 p-1 text-[11px] font-medium">
+                        <button onclick="setGridFilter('all')" id="filter-all" class="flex-1 py-1 rounded bg-white dark:bg-slate-800 shadow-xs text-scfhs-700 dark:text-blue-400 font-bold">All</button>
+                        <button onclick="setGridFilter('unanswered')" id="filter-unanswered" class="flex-1 py-1 rounded text-gray-600 dark:text-gray-300">Unanswered</button>
+                        <button onclick="setGridFilter('flagged')" id="filter-flagged" class="flex-1 py-1 rounded text-gray-600 dark:text-gray-300">Flagged</button>
+                    </div>
+                </div>
+
+                <!-- Grid Buttons Panel -->
+                <div id="grid-container" class="flex-1 p-3 overflow-y-auto grid grid-cols-5 gap-1.5 align-content-start text-xs font-semibold">
+                    <!-- Dynamic Buttons injected here -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SCORE REPORT SCREEN -->
+        <div id="results-screen" class="hidden flex-1 flex flex-col space-y-6 overflow-y-auto pb-10">
+            <!-- Header Summary Card -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md border border-gray-200 dark:border-slate-700 p-6 md:p-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-scfhs-600 dark:text-blue-400">Official Prometric Examination Transcript</span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mt-1">SCFHS Nurse Technician Licensing Assessment</h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Saudi Licensing Blueprint Standard Cut-Score: <span class="font-semibold text-gray-700 dark:text-gray-300">60.0% Pass Mark</span></p>
+                    </div>
+                    
+                    <div class="flex items-center space-x-6 bg-gray-50 dark:bg-slate-900/50 p-4 rounded-xl border border-gray-100 dark:border-slate-700">
+                        <div id="pass-fail-badge" class="px-6 py-3 rounded-xl text-center">
+                            <!-- Populated by JS -->
+                        </div>
+                        <div>
+                            <div class="text-3xl font-black text-gray-900 dark:text-white" id="score-percentage">0%</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 font-medium" id="score-raw">0 / 220 Correct</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions Bar -->
+                <div class="mt-6 pt-6 border-t border-gray-200 dark:border-slate-700 flex flex-wrap gap-3 no-print">
+                    <button onclick="window.print()" class="px-4 py-2.5 rounded-lg bg-gray-800 text-white text-xs font-semibold hover:bg-black transition flex items-center gap-2">
+                        <i class="fa-solid fa-print"></i> Print Official Result Transcript
+                    </button>
+                    <button onclick="restartExam()" class="px-4 py-2.5 rounded-lg bg-scfhs-600 text-white text-xs font-semibold hover:bg-scfhs-700 transition flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> Reset & Retake 220 Examination
+                    </button>
+                </div>
+            </div>
+
+            <!-- Domain Breakdown Section -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md border border-gray-200 dark:border-slate-700 p-6">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-pie text-scfhs-600"></i> Domain Competency Breakdown
+                </h3>
+                <div id="domain-breakdown-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Injected dynamically -->
+                </div>
+            </div>
+
+            <!-- Detailed Item-by-Item Review -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md border border-gray-200 dark:border-slate-700 p-6">
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-scfhs-600"></i> Item-by-Item Diagnostic & Rationale Review
+                        </h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Examine all 220 stems, chosen answers, correct options, and clinical justifications.</p>
+                    </div>
+                    <!-- Filters -->
+                    <div class="flex rounded-lg bg-gray-100 dark:bg-slate-700 p-1 text-xs font-medium">
+                        <button onclick="filterReview('all')" id="review-filter-all" class="px-3 py-1.5 rounded bg-white dark:bg-slate-800 text-scfhs-700 dark:text-blue-300 font-bold shadow-xs">All Items</button>
+                        <button onclick="filterReview('incorrect')" id="review-filter-incorrect" class="px-3 py-1.5 rounded text-gray-600 dark:text-gray-300">Incorrect</button>
+                        <button onclick="filterReview('flagged')" id="review-filter-flagged" class="px-3 py-1.5 rounded text-gray-600 dark:text-gray-300">Flagged</button>
+                    </div>
+                </div>
+
+                <!-- Review Feed Container -->
+                <div id="review-items-container" class="space-y-6 divide-y divide-gray-200 dark:divide-slate-700">
+                    <!-- Dynamic review cards injected here -->
+                </div>
+            </div>
+        </div>
+    </main>
 
     <!-- CALCULATOR MODAL -->
-    <div id="calculatorModal" class="hidden fixed bottom-20 right-6 w-64 bg-slate-900 text-white rounded-lg shadow-2xl border border-slate-700 z-50 overflow-hidden">
-        <div class="bg-slate-800 px-3 py-2 flex justify-between items-center text-xs font-bold border-b border-slate-700">
-            <span><i class="fa-solid fa-calculator mr-1"></i> Dosage Calculator</span>
-            <button onclick="toggleCalculator()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="p-3">
-            <input type="text" id="calcScreen" readonly class="w-full bg-slate-950 text-right px-3 py-2 rounded text-lg font-mono text-emerald-400 mb-3 border border-slate-800" value="0">
-            <div class="grid grid-cols-4 gap-1.5 text-sm font-semibold">
-                <button onclick="calcClear()" class="col-span-2 bg-rose-600/80 hover:bg-rose-600 p-2 rounded">C</button>
-                <button onclick="calcInput('/')" class="bg-slate-700 hover:bg-slate-600 p-2 rounded">÷</button>
-                <button onclick="calcInput('*')" class="bg-slate-700 hover:bg-slate-600 p-2 rounded">×</button>
-                <button onclick="calcInput('7')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">7</button>
-                <button onclick="calcInput('8')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">8</button>
-                <button onclick="calcInput('9')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">9</button>
-                <button onclick="calcInput('-')" class="bg-slate-700 hover:bg-slate-600 p-2 rounded">-</button>
-                <button onclick="calcInput('4')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">4</button>
-                <button onclick="calcInput('5')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">5</button>
-                <button onclick="calcInput('6')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">6</button>
-                <button onclick="calcInput('+')" class="bg-slate-700 hover:bg-slate-600 p-2 rounded">+</button>
-                <button onclick="calcInput('1')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">1</button>
-                <button onclick="calcInput('2')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">2</button>
-                <button onclick="calcInput('3')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">3</button>
-                <button onclick="calcEqual()" class="row-span-2 bg-emerald-600 hover:bg-emerald-500 p-2 rounded flex items-center justify-center">=</button>
-                <button onclick="calcInput('0')" class="col-span-2 bg-slate-800 hover:bg-slate-700 p-2 rounded">0</button>
-                <button onclick="calcInput('.')" class="bg-slate-800 hover:bg-slate-700 p-2 rounded">.</button>
+    <div id="calc-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-slate-700 w-full max-w-md overflow-hidden">
+            <div class="bg-scfhs-800 text-white p-4 flex justify-between items-center">
+                <h3 class="font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-calculator text-amber-300"></i> Clinical Dosage Calculator</h3>
+                <button onclick="toggleModal('calc-modal')" class="text-gray-300 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="p-4 space-y-4">
+                <!-- Calc Screen -->
+                <input type="text" id="calc-display" readonly value="0" class="w-full bg-gray-100 dark:bg-slate-900 border border-gray-300 dark:border-slate-700 text-right p-3 text-2xl font-mono rounded-lg text-gray-800 dark:text-gray-100 font-bold">
+                
+                <!-- Calc Buttons Grid -->
+                <div class="grid grid-cols-4 gap-2 text-sm font-bold">
+                    <button onclick="calcClear()" class="p-3 bg-red-100 dark:bg-red-950/50 text-red-600 rounded-lg hover:bg-red-200">C</button>
+                    <button onclick="calcPress('/')" class="p-3 bg-gray-200 dark:bg-slate-700 rounded-lg">÷</button>
+                    <button onclick="calcPress('*')" class="p-3 bg-gray-200 dark:bg-slate-700 rounded-lg">×</button>
+                    <button onclick="calcPress('-')" class="p-3 bg-gray-200 dark:bg-slate-700 rounded-lg">−</button>
+                    
+                    <button onclick="calcPress('7')" class="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg">7</button>
+                    <button onclick="calcPress('8')" class="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg">8</button>
+                    <button onclick="calcPress('9')" class="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg">9</button>
+                    <button onclick="calcPress('+')" class="p-3 bg-gray-200 dark:bg-slate-700 rounded-lg">+</button>
+                    
+                    <button onclick="calcPress('4')" class="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg">4</button>
+                    <button onclick="calcPress('5')" class="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg">5</button>
+                    <button onclick="calcPress('6')" class="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg">6</button>
+                    <button onclick="calcEqual()" class="row-span-2 p-3 bg-scfhs-600 text-white rounded-lg hover:bg-scfhs-700 flex items-center justify-center text-xl">=</button>
+
+                    <button onclick="calcPress('1')" class="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg">1</button>
+                    <button onclick="calcPress('2')" class="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg">2</button>
+                    <button onclick="calcPress('3')" class="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg">3</button>
+
+                    <button onclick="calcPress('0')" class="col-span-2 p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg">0</button>
+                    <button onclick="calcPress('.')" class="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg">.</button>
+                </div>
+
+                <!-- Quick Formula Cheat Reference -->
+                <div class="p-3 bg-blue-50 dark:bg-slate-900 rounded-lg text-xs border border-blue-100 dark:border-slate-700 text-gray-600 dark:text-gray-300 space-y-1">
+                    <p class="font-bold text-scfhs-800 dark:text-blue-400">Common Clinical Formulas:</p>
+                    <p>• <strong>IV Flow (gtt/min):</strong> (Volume in mL × Drop Factor) ÷ Time in min</p>
+                    <p>• <strong>Dose Calculation:</strong> (Desired Dose ÷ Have) × Quantity</p>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- SUBMIT CONFIRMATION MODAL -->
-    <div id="submitModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-800 max-w-md w-full rounded-xl p-6 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-4">
-            <div class="flex items-center space-x-3 text-amber-500">
-                <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
-                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Submit Exam Session?</h3>
+    <div id="submit-modal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-slate-700 max-w-md w-full p-6 text-center space-y-4">
+            <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 rounded-full flex items-center justify-center mx-auto text-xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
-            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                You are finalizing your exam attempt. You have answered <span id="modalAnsweredCount" class="font-bold text-emerald-600">0</span> out of 220 questions.
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white">Submit Examination?</h3>
+            <p id="submit-modal-msg" class="text-sm text-gray-600 dark:text-gray-300">
+                Are you sure you want to finalize your submission?
             </p>
-            <div id="unansweredWarning" class="hidden bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 p-3 rounded text-xs text-amber-800 dark:text-amber-300">
-                <i class="fa-solid fa-circle-info mr-1"></i> You have <span id="modalUnansweredCount" class="font-bold">0</span> unanswered questions. Unanswered items will be marked incorrect.
-            </div>
-            <div class="flex justify-end space-x-3 pt-2">
-                <button onclick="closeSubmitModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded text-xs md:text-sm font-semibold hover:bg-slate-300">Return to Exam</button>
-                <button onclick="finalizeExam()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs md:text-sm font-bold shadow-md">Finalize & Score</button>
+            <div class="flex gap-3 pt-2">
+                <button onclick="toggleModal('submit-modal')" class="flex-1 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-gray-100 dark:hover:bg-slate-700">Return to Test</button>
+                <button onclick="executeExamSubmission()" class="flex-1 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition">Yes, Submit Now</button>
             </div>
         </div>
     </div>
 
+    <!-- EXAM ENGINE SCRIPT -->
     <script>
+        // GLOBAL APPLICATION STATE
+        let examData = [];
+        let userAnswers = {};
+        let flaggedQuestions = new Set();
+        let currentQuestionIndex = 0;
+        let timeRemainingSeconds = 4 * 60 * 60; // 4 Hours
+        let timerInterval = null;
+        let isTimerPaused = false;
+        let currentGridFilter = 'all';
+        let currentReviewFilter = 'all';
+        let showRationaleCurrent = false;
+
+        // BLUEPRINT DOMAIN CONSTANTS
         const DOMAINS = {
-            FUNDAMENTALS: "Fundamental Nursing Care (30%)",
-            MED_SURG_TECH: "Clinical Med-Surg Tech (30%)",
-            MATERNAL_PEDS: "Maternal & Pediatric Tech (20%)",
-            SAFETY_ETHICS: "Patient Safety & Ethics (10%)",
-            EMERGENCY: "Emergency First Response (10%)"
+            FUNDAMENTALS: 'Fundamental Nursing Care (30%)',
+            MED_SURG: 'Clinical Med-Surg Tech (30%)',
+            MATERNAL_PEDIATRIC: 'Maternal & Pediatric Tech (20%)',
+            SAFETY_ETHICS: 'Patient Safety & Ethics (10%)',
+            EMERGENCY: 'Emergency First Response (10%)'
         };
 
-        // Deterministic pseudo-random generator for consistent option shuffling per item
-        function seededRandom(seed) {
-            let x = Math.sin(seed++) * 10000;
-            return x - Math.floor(x);
-        }
+        // CLINICAL ITEM BANK SEED DATA GENERATOR
+        function generate220UniqueQuestions() {
+            const list = [];
 
-        function shuffleOptionsWithKey(optionsArray, rawCorrectIdx, itemSeed) {
-            const indexedOptions = optionsArray.map((opt, i) => ({ text: opt, isCorrect: i === rawCorrectIdx }));
-            for (let i = indexedOptions.length - 1; i > 0; i--) {
-                const j = Math.floor(seededRandom(itemSeed + i) * (i + 1));
-                [indexedOptions[i], indexedOptions[j]] = [indexedOptions[j], indexedOptions[i]];
-            }
-            const newOptions = indexedOptions.map(o => o.text);
-            const newCorrectIndex = indexedOptions.findIndex(o => o.isCorrect);
-            return { shuffledOptions: newOptions, newCorrectIndex };
-        }
-
-        // Generator for 220 fully independent master-tier scenarios featuring deep clinical histories, professional tie-breakers, and linguistic traps
-        function load220FullVignettes() {
-            const domainKeys = Object.values(DOMAINS);
-            const fullBank = [];
-
-            const masterLibrary = [
-                {
-                    dom: DOMAINS.MED_SURG_TECH,
-                    vignette: "A 68-year-old male with decompensated chronic heart failure, chronic kidney disease stage 4, and severe peripheral edema is admitted for acute volume overload. At 06:00, the nurse technician records vital signs: BP 92/54 mmHg, HR 116 bpm, RR 26 breaths/min, SpO2 89% on room air, and temperature 37.2°C. The client reports severe orthopnea and difficulty catching his breath while lying flat. Daily weight indicates an abrupt 3.2 kg gain over 48 hours. When attempting to assist the client into a high-Fowler position, the client suddenly complains of acute dizziness, lightheadedness, and vision darkening. Which professional tie-breaker action must the technician prioritize?",
-                    correct: "Lower the head of bed slightly to a semi-recumbent position and notify the RN immediately.",
-                    distractorSet: [
-                        "Keep the client completely flat in bed to restore cerebral blood pressure immediately.",
-                        "Administer 500 mL of oral water rapidly to counteract the sudden dizzy spell.",
-                        "Encourage the client to stand up and walk around the room to improve systemic circulation."
-                    ],
-                    rat: "Sudden dizziness during orthopnea repositioning indicates acute hypovolemic or orthostatic drop compounded by fragile cardiac status; lowering the bed slightly restores cerebral perfusion while avoiding severe pulmonary drowning.",
-                    da: [
-                        "A: CORRECT. Semi-recumbent positioning balances cerebral perfusion with respiratory comfort while escalating care.",
-                        "B: INCORRECT. Flat posture precipitates severe acute pulmonary edema in failing hearts.",
-                        "C: INCORRECT. Oral fluid loading worsens acute volume overload and heart failure.",
-                        "D: INCORRECT. Unsupervised ambulation during acute orthostatic collapse leads to dangerous falls."
-                    ]
-                },
-                {
-                    dom: DOMAINS.FUNDAMENTALS,
-                    vignette: "An 82-year-old female client with severe vascular dementia and a deep stage 4 pressure injury over the sacrum is admitted to the sub-acute care unit. The client's family insists that the nurse technician immediately apply a scented commercial air freshener aerosol spray directly inside the room and seal the sacral wound tightly with plastic wrap to 'contain the foul necrotic odor.' The client's medical history notes severe chronic asthma and bronchial hyperreactivity. What is the priority safety and ethical action for the technician?",
-                    correct: "Decline spraying air freshener or sealing the wound, report odor to RN, and ensure proper dressings.",
-                    distractorSet: [
-                        "Spray the air freshener near the doorway and apply plastic wrap over the wound as requested.",
-                        "Spray the air freshener into the hallway and leave the wound open to the air without dressing.",
-                        "Apply tight adhesive tape over all wound edges to seal the odor completely without notifying staff."
-                    ],
-                    rat: "Aerosol sprays trigger lethal bronchospasm in asthmatic clients, and sealing necrotic wounds with plastic causes bacterial proliferation and infection.",
-                    da: [
-                        "A: CORRECT. Protects respiratory status and prevents infection proliferation by upholding aseptic and safety standards.",
-                        "B: INCORRECT. Aerosol chemicals provoke acute asthmatic crisis and respiratory arrest.",
-                        "C: INCORRECT. Leaving wounds un-bandaged violates basic infection control.",
-                        "D: INCORRECT. Sealing necrotic wounds creates an anaerobic culture medium for severe sepsis."
-                    ]
-                },
-                {
-                    dom: DOMAINS.EMERGENCY,
-                    vignette: "A 56-year-old male client is brought to the emergency department following a high-speed motor vehicle collision with direct steering wheel impact to the anterior chest wall. Assessment reveals absent breath sounds over the right hemithorax, hyperresonance to percussion, severe tracheal deviation toward the left, jugular venous distention, and profound hypotension (BP 68/36 mmHg). The physician prepares for immediate needle thoracostomy. What is the technician's immediate supportive role?",
-                    correct: "Expose the right 2nd intercostal space at midclavicular line and reassure the client.",
-                    distractorSet: [
-                        "Prepare for immediate insertion of a 36-Fr chest tube into the left 5th intercostal space.",
-                        "Apply a tight circumferential elastic compression bandage around the right ribcage.",
-                        "Administer sublingual nitroglycerin tablets to reduce central venous pressure."
-                    ],
-                    rat: "Tension pneumothorax requires rapid emergency decompression at the right 2nd intercostal space midclavicular line to relieve obstructive shock.",
-                    da: [
-                        "A: CORRECT. Exposing the exact anatomical landmark facilitates rapid needle thoracostomy.",
-                        "B: INCORRECT. Left chest placement is wrong; tension is on the right.",
-                        "C: INCORRECT. Compression bandages exacerbate tension pneumothorax by trapping air.",
-                        "D: INCORRECT. Nitroglycerin causes catastrophic vasodilation in obstructive shock."
-                    ]
-                },
-                {
-                    dom: DOMAINS.MATERNAL_PEDS,
-                    vignette: "A 18-month-old toddler is admitted with acute laryngotracheobronchitis (croup) characterized by a harsh barking cough, inspiratory stridor at rest, and mild intercostal retractions. SpO2 is 93% on room air. The anxious mother asks if she can place a steaming electric hot water kettle directly next to the toddler's crib rail to soothe the airway overnight. How should the nurse technician respond?",
-                    correct: "Explain that hot steam causes severe scalding and offer a cool-mist humidifier instead.",
-                    distractorSet: [
-                        "Allow the kettle provided it is placed securely on a bedside chair within reach.",
-                        "Suggest boiling water in an open metal basin on the floor near the toddler's bed.",
-                        "Encourage closing all doors and windows tightly to trap heavy steam inside the room."
-                    ],
-                    rat: "Hot steam kettles present severe thermal burn hazards to toddlers; cool-mist humidifiers safely soothe airway inflammation without scalding risks.",
-                    da: [
-                        "A: CORRECT. Prevents thermal burn injuries while providing safe humidity.",
-                        "B: INCORRECT. Hot steam poses catastrophic scalding risks to toddlers.",
-                        "C: INCORRECT. Open boiling water creates severe safety hazards in inpatient rooms.",
-                        "D: INCORRECT. Trapping unmonitored steam increases burn and humidity hazards."
-                    ]
-                },
-                {
-                    dom: DOMAINS.SAFETY_ETHICS,
-                    vignette: "A nurse technician is working in a busy outpatient diagnostic center. While disposing of used butterfly needles into a rigid sharps container, the technician accidentally sustains a deep puncture wound to the left index finger through a latex glove. The needle was contaminated with blood from a patient with unknown viral hepatitis status. What is the required immediate sequence of actions?",
-                    correct: "Wash the puncture site thoroughly with soap and water, then report to employee health.",
-                    distractorSet: [
-                        "Squeeze the puncture wound aggressively until dark blood flows freely from the site.",
-                        "Apply concentrated household bleach directly onto the puncture wound for 5 minutes.",
-                        "Cover the wound with an adhesive bandage and wait until shift end to report."
-                    ],
-                    rat: "Immediate washing minimizes viral transmission; prompt reporting ensures timely post-exposure prophylaxis evaluation.",
-                    da: [
-                        "A: CORRECT. Soap and water cleansing reduces viral load without damaging capillary tissue.",
-                        "B: INCORRECT. Squeezing traumatizes tissue and increases local pathogen absorption.",
-                        "C: INCORRECT. Bleach causes chemical tissue necrosis and increases infection risk.",
-                        "D: INCORRECT. Delaying reporting violates occupational safety protocols and window periods."
-                    ]
-                }
-            ];
-
-            // Expand to 220 fully independent master items using algorithmic variation
-            for (let i = 0; i < 220; i++) {
-                const template = masterLibrary[i % masterLibrary.length];
-                const qNum = i + 1;
-                const seed = i + 900;
-
-                let vignetteText = `[Master Case #${qNum}] ${template.vignette}`;
-                let rawOpts = [
-                    template.correct,
-                    template.distractorSet[0],
-                    template.distractorSet[1],
-                    template.distractorSet[2]
-                ];
-
-                const { shuffledOptions, newCorrectIndex } = shuffleOptionsWithKey(rawOpts, 0, seed);
-
-                fullBank.push({
-                    id: `SCFHS-TECH-MASTER-${String(qNum).padStart(3, '0')}`,
-                    domain: template.dom,
-                    vignette: vignetteText,
-                    options: shuffledOptions,
-                    correctIndex: newCorrectIndex,
-                    rationale: template.rat,
-                    distractorAnalysis: [
-                        `Option corresponding to correct professional tie-breaker: CORRECT. ${template.rat}`,
-                        `Alternative distractor 1: INCORRECT. Contains a linguistic distraction that violates patient safety protocols.`,
-                        `Alternative distractor 2: INCORRECT. Represents an unsafe clinical shortcut that increases physiological risk.`,
-                        `Alternative distractor 3: INCORRECT. Fails to meet professional priority and scope of practice guidelines.`
-                    ]
+            // Helper function to build items
+            function makeItem(domain, stem, options, correctIdx, rationale) {
+                list.push({
+                    id: `ITEM-${list.length + 1}`,
+                    domain: domain,
+                    stem: stem,
+                    options: options,
+                    correct: correctIdx,
+                    rationale: rationale
                 });
             }
 
-            return fullBank;
-        }
+            // --- DOMAIN 1: FUNDAMENTAL NURSING CARE (66 UNIQUE ITEMS: 1 - 66) ---
+            makeItem(DOMAINS.FUNDAMENTALS, "Prior to administering digoxin to a 68-year-old client with heart failure, the nurse technician counts the apical pulse for 1 full minute. Which site is anatomically correct for assessing the apical pulse?", ["Third intercostal space at the sternal border", "Fifth intercostal space at the left midclavicular line", "Second intercostal space at the right sternal border", "Fourth intercostal space at the midaxillary line"], 1, "The apical pulse (mitral area) is located at the 5th intercostal space along the left midclavicular line.");
+            
+            makeItem(DOMAINS.FUNDAMENTALS, "When performing a bed bath for a bedridden client, in which direction should the nurse technician wash the client's upper extremities?", ["From the shoulder down to the wrist", "From the fingers up toward the axilla", "From the elbow down to the hand", "In circular motions starting from the chest outward"], 1, "Washing from distal to proximal (fingers to axilla) promotes venous blood return to the heart.");
 
-        // Global Exam Application State Variables
-        let examQuestions = [];
-        let currentIndex = 0;
-        let userAnswers = new Array(220).fill(null);
-        let flaggedItems = new Array(220).fill(false);
-        let timeRemainingSeconds = 240 * 60; // 4 Hours
-        let timerInterval = null;
-        let isSubmitted = false;
-        let currentFilter = 'all';
+            makeItem(DOMAINS.FUNDAMENTALS, "A client with a right-sided hemiparesis needs assistance transferring from the bed to a wheelchair. Where should the technician place the wheelchair relative to the bed?", ["At a 45-degree angle on the client's left (stronger) side", "At a 45-degree angle on the client's right (affected) side", "Directly at the foot of the bed facing away", "Parallel to the bed on whichever side is closest to the bathroom"], 0, "Positioning the wheelchair on the unaffected (stronger) side allows the client to pivot safely using their strong limb.");
 
-        window.onload = function() {
-            examQuestions = load220FullVignettes();
-            loadSavedState();
-            renderGrid();
-            renderQuestion();
-            startTimer();
-            updateProgressCounters();
-        };
+            makeItem(DOMAINS.FUNDAMENTALS, "Which technique is vital when measuring a client's blood pressure to prevent a false high systolic reading?", ["Using a cuff whose bladder length covers less than 50% of the arm circumference", "Using an oversized cuff on a thin arm", "Using a cuff that is too narrow for the size of the arm", "Deflating the cuff faster than 6 mmHg per second"], 2, "A cuff that is too narrow or wrapped too loosely produces a falsely elevated blood pressure reading.");
 
-        function renderGrid() {
-            const grid = document.getElementById('questionGrid');
-            grid.innerHTML = '';
+            makeItem(DOMAINS.FUNDAMENTALS, "The primary care provider orders an indwelling urinary catheter for an adult female client. What distance should the catheter be lubricated prior to insertion?", ["1 to 2 inches (2.5 to 5 cm)", "3 to 4 inches (7.5 to 10 cm)", "5 to 7 inches (12.5 to 17.5 cm)", "8 to 10 inches (20 to 25 cm)"], 0, "For female urinary catheterization, lubricating 1 to 2 inches (2.5-5 cm) is standard, as the female urethra is short.");
 
-            for (let i = 0; i < 220; i++) {
-                const btn = document.createElement('button');
-                btn.id = `grid-btn-${i}`;
-                btn.className = getGridBtnClass(i);
-                btn.textContent = i + 1;
-                btn.onclick = () => jumpToQuestion(i);
-                grid.appendChild(btn);
-            }
-        }
+            makeItem(DOMAINS.FUNDAMENTALS, "To prevent shear and pressure injury in a immobile bedridden client, what is the maximum recommended elevation of the head of the bed during routine resting?", ["15 to 30 degrees", "45 to 60 degrees", "75 to 90 degrees", "Flat (0 degrees) at all times"], 0, "Elevating the head of the bed higher than 30 degrees increases shear and friction forces on the sacrum.");
 
-        function getGridBtnClass(index) {
-            let base = "h-8 w-full text-xs font-semibold rounded flex items-center justify-center transition border ";
-            if (index === currentIndex) {
-                base += "ring-2 ring-prometric-blue dark:ring-sky-400 font-bold ";
-            }
+            makeItem(DOMAINS.FUNDAMENTALS, "While removing dirty personal protective equipment (PPE) after caring for a isolation client, which PPE item should be removed first?", ["Gown", "Mask or N95 respirator", "Gloves", "Face shield"], 2, "Gloves are considered the most contaminated item and should always be removed first during PPE doffing.");
 
-            if (flaggedItems[index]) {
-                return base + "bg-amber-500 text-white border-amber-600";
-            } else if (userAnswers[index] !== null) {
-                return base + "bg-emerald-600 text-white border-emerald-700";
-            } else {
-                return base + "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:bg-slate-100";
-            }
-        }
+            makeItem(DOMAINS.FUNDAMENTALS, "A client requires nasogastric (NG) tube placement for gastric decompression. How should the nurse technician measure the tube length prior to insertion?", ["From the tip of the nose to the clavicle to the umbilicus", "From the tip of the nose to the earlobe to the xiphoid process", "From the corner of the mouth to the earlobe to the sternal notch", "From the chin to the suprasternal notch to the epigastrium"], 1, "The standard NEX measurement (Nose to Earlobe to Xiphoid process) ensures accurate placement in the stomach.");
 
-        function updateGridBtn(index) {
-            const btn = document.getElementById(`grid-btn-${index}`);
-            if (btn) btn.className = getGridBtnClass(index);
-        }
+            makeItem(DOMAINS.FUNDAMENTALS, "What is the primary rationale for performing range-of-motion (ROM) exercises daily on an immobilized post-stroke client?", ["To elevate systemic blood pressure", "To prevent joint contractures and muscle atrophy", "To lower blood glucose levels", "To stimulate active peristalsis in the colon"], 1, "Passive or active ROM exercises maintain joint flexibility and prevent debilitating contractures and muscular breakdown.");
 
-        function renderQuestion() {
-            const q = examQuestions[currentIndex];
+            makeItem(DOMAINS.FUNDAMENTALS, "When providing oral hygiene to an unconscious client, which safety positioning is mandatory to prevent aspiration?", ["High Fowler's position with head tilted back", "Supine position with legs elevated", "Side-lying (lateral) position with head turned toward the side", "Trendelenburg position"], 2, "A lateral side-lying position allows fluids and secretions to drain out of the mouth, avoiding airway aspiration.");
 
-            document.getElementById('qNumberDisplay').textContent = `Question ${currentIndex + 1} of 220`;
-            document.getElementById('questionIdDisplay').textContent = `Item ID: ${q.id}`;
-            document.getElementById('itemDomainTag').textContent = `Domain: ${q.domain}`;
-            document.getElementById('vignetteDisplay').textContent = q.vignette;
+            makeItem(DOMAINS.FUNDAMENTALS, "A client with chronic kidney disease requires fluid restriction. What is the best action by the technician to assist the client with oral dry mouth?", ["Offer frequent ice chips within the calculated fluid allowance", "Provide unlimited carbonated soft drinks", "Encourage large gulps of cold water throughout the night", "Place hard candies in the mouth without logging fluid intake"], 0, "Ice chips melt to half their volume and provide oral mucosal moisture while adhering to prescribed fluid limits.");
 
-            const flagBtn = document.getElementById('flagBtn');
-            const flagIcon = document.getElementById('flagIcon');
-            const flagText = document.getElementById('flagText');
+            makeItem(DOMAINS.FUNDAMENTALS, "Which pulse site should be evaluated when assessing peripheral circulation to the lower leg and foot?", ["Femoral pulse", "Dorsalis pedis pulse", "Carotid pulse", "Brachial pulse"], 1, "The dorsalis pedis and posterior tibial pulses assess distal arterial perfusion in the lower extremity.");
 
-            if (flaggedItems[currentIndex]) {
-                flagBtn.classList.add('bg-amber-100', 'border-amber-400', 'dark:bg-amber-900/40');
-                flagIcon.className = "fa-solid fa-flag text-amber-500";
-                flagText.textContent = "Flagged";
-            } else {
-                flagBtn.classList.remove('bg-amber-100', 'border-amber-400', 'dark:bg-amber-900/40');
-                flagIcon.className = "fa-regular fa-flag text-slate-500";
-                flagText.textContent = "Mark for Review";
-            }
+            makeItem(DOMAINS.FUNDAMENTALS, "A client is prescribed a 24-hour urine collection test. How should the technician handle the very first voiding at the start of the collection period?", ["Discard the first voided specimen and record the exact start time", "Include the first voided specimen in the collection container", "Send the first voiding immediately to the microbiology lab", "Mix the first voiding with 10 mL of sterile saline"], 0, "A 24-hour collection begins with an empty bladder; the first void is discarded, and all subsequent urine for 24 hours is saved.");
 
-            const container = document.getElementById('optionsContainer');
-            container.innerHTML = '';
-            const labels = ['A', 'B', 'C', 'D'];
+            makeItem(DOMAINS.FUNDAMENTALS, "Which type of isolation precaution is mandatory when caring for a client diagnosed with pulmonary tuberculosis?", ["Contact Precautions", "Droplet Precautions", "Airborne Precautions", "Neutropenic Precautions"], 2, "Pulmonary tuberculosis spreads via airborne droplet nuclei and requires Airborne Precautions with a negative-pressure room and N95 respirator.");
 
-            q.options.forEach((optText, optIdx) => {
-                const isSelected = userAnswers[currentIndex] === optIdx;
+            makeItem(DOMAINS.FUNDAMENTALS, "When assisting a client who is non-weight bearing on the right leg to walk with crutches, which crutch gait pattern is appropriate?", ["Two-point gait", "Three-point gait", "Four-point gait", "Swing-through gait"], 1, "A three-point gait is used when one lower extremity is non-weight bearing; weight is borne on both crutches and the unaffected leg.");
 
-                const card = document.createElement('div');
-                card.onclick = () => selectOption(optIdx);
-                card.className = `p-4 rounded-lg border-2 cursor-pointer transition flex items-start space-x-3 ${
-                    isSelected 
-                        ? 'border-prometric-blue bg-blue-50/70 dark:bg-slate-800 dark:border-sky-500 shadow-sm' 
-                        : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 bg-white dark:bg-slate-800/40'
-                }`;
+            makeItem(DOMAINS.FUNDAMENTALS, "What is the normal expected range for an adult's resting respiratory rate?", ["6 to 10 breaths per minute", "12 to 20 breaths per minute", "22 to 28 breaths per minute", "30 to 40 breaths per minute"], 1, "The physiological normal range for resting adult respirations is 12 to 20 breaths per minute.");
 
-                card.innerHTML = `
-                    <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
-                        isSelected 
-                            ? 'border-prometric-blue bg-prometric-blue text-white dark:border-sky-500 dark:bg-sky-500' 
-                            : 'border-slate-400 text-slate-600 dark:text-slate-400'
-                    }">
-                        ${labels[optIdx]}
-                    </div>
-                    <div class="text-sm md:text-base leading-snug text-slate-800 dark:text-slate-200">${optText}</div>
-                `;
+            makeItem(DOMAINS.FUNDAMENTALS, "A client's surgical wound has dehisced and abdominal organs are visible. What is the immediate nursing response?", ["Attempt to push the organs back into the abdominal cavity", "Cover the exposed tissue with sterile dressings soaked in normal saline", "Apply a tight abdominal binder over the wound", "Position the client upright in a high Fowler's chair"], 1, "Visceral evisceration requires immediate coverage with sterile, saline-moistened dressings to prevent tissue drying and infection.");
 
-                container.appendChild(card);
+            makeItem(DOMAINS.FUNDAMENTALS, "Where should the collection bag of a gravity-draining urinary catheter be secured relative to the client?", ["At the level of the client's chest on the side rail", "Below the level of the bladder on the bed frame", "Directly on the floor under the bed", "Hanging from the IV pole above the head of the bed"], 1, "Urinary bags must stay below bladder level to prevent retrograde reflux of urine, while avoiding floor contact to lower infection risk.");
+
+            makeItem(DOMAINS.FUNDAMENTALS, "A client has an order for a cleansing enema. In what position should the client be placed prior to procedure initiation?", ["Right lateral position with left knee bent", "Sims' position (left lateral side-lying with right knee flexed)", "Prone position with a pillow under the abdomen", "Supine position with legs spread"], 1, "Sims' position (left side-lying) follows the natural anatomical curve of the sigmoid colon, aiding enema fluid flow.");
+
+            makeItem(DOMAINS.FUNDAMENTALS, "Which assessment finding in a surgical wound indicates primary intention wound healing?", ["Well-approximated skin edges secured by surgical staples or sutures", "A deep open cavity filled with granulating red tissue", "A wound left open for 5 days due to gross contamination", "Continuous yellow purulent drainage with dark eschar"], 0, "Primary intention healing occurs in clean wounds with well-approximated margins closed by sutures or staples.");
+
+            // Generate remaining Fundamentals (21 to 66) dynamically with unique medical facts
+            const fndTopics = [
+                ["hypokalemia", "potassium level of 2.8 mEq/L", "cardiac dysrhythmias and muscle weakness", "Monitor ECG and report low serum potassium immediately"],
+                ["hyperkalemia", "potassium level of 6.2 mEq/L", "tall peaked T waves on ECG", "Notify primary nurse/physician for urgent potassium-lowering therapy"],
+                ["hypoglycemia", "blood glucose level of 52 mg/dL", "diaphoresis, tremors, and confusion", "Administer 15g fast-acting oral carbohydrates"],
+                ["hyperglycemia", "blood glucose level of 340 mg/dL", "frequent urination, polydipsia, and fruity breath odor", "Check urine ketones and prepare insulin administration"],
+                ["hyponatremia", "sodium level of 122 mEq/L", "confusion, seizure risk, and muscle cramps", "Implement safety precautions and restrict fluid intake"],
+                ["fluid volume overload", "distended neck veins, +3 pitting edema, and bilateral lung crackles", "increased venous pressures", "Restrict fluid and sodium and monitor daily weights"],
+                ["fluid volume deficit", "dry mucous membranes, dark concentrated urine, and orthostatic hypotension", "dehydration", "Increase fluid intake and monitor intake and output"],
+                ["hypoxia", "pulse oximetry reading of 88% on room air", "restlessness and cyanosis", "Elevate head of bed and apply oxygen therapy as ordered"],
+                ["sterility breach", "touching the 1-inch outer border of a sterile field", "contamination", "Discard the contaminated setup and prepare a new sterile field"],
+                ["skin integrity", "non-blanchable erythema over the trochanter", "Stage 1 pressure injury", "Reposition the client every 2 hours and relieve pressure"],
+                ["enteral feeding", "residual volume of 300 mL before next feeding", "delayed gastric emptying", "Withhold feeding and notify the healthcare provider"],
+                ["tracheostomy care", "suctioning duration exceeding 15 seconds", "hypoxia and mucosal trauma", "Limit suction passes to 10-15 seconds with hyperoxygenation"],
+                ["post-op atelectasis", "fever, shallow breathing, and diminished lung base sounds", "alveolar collapse", "Encourage incentive spirometry 10 times per hour while awake"],
+                ["subcutaneous injection", "administering insulin into abdominal tissue", "90-degree insertion angle for normal body mass", "Pinch skin fold and inject into fatty tissue"],
+                ["intramuscular injection", "ventrogluteal site landmarking", "free of major nerves and blood vessels", "Locate greater trochanter and anterior superior iliac spine"],
+                ["intravenous phlebitis", "redness, warmth, and a palpable cord along the vein", "vein inflammation", "Discontinue IV catheter immediately and apply warm compress"],
+                ["intravenous infiltration", "coolness, swelling, and pallor at the IV catheter site", "fluid leaking into tissue", "Stop infusion, remove catheter, and elevate extremity"],
+                ["orthostatic hypotension", "drop of 25 mmHg systolic upon standing", "dizziness and fall risk", "Dangle legs at bedside before standing slowly"],
+                ["restraint safety", "applying belt restraints to a confused client", "prevention of asphyxiation and injury", "Secure ties to bed frame with quick-release knot"],
+                ["body mechanics", "lifting a heavy box or client", "prevention of lumbar back injury", "Bend at knees and hips while keeping back straight"],
+                ["hand hygiene", "visible blood on hands after dressing change", "pathogen transmission", "Wash hands vigorously with antimicrobial soap and water for 20 seconds"],
+                ["contact precautions", "caring for a client with Clostridioides difficile", "spore transmission", "Wash hands with soap and water and wear gown and gloves"],
+                ["droplet precautions", "caring for a client with influenza", "large particle droplet transmission", "Wear a surgical mask within 3 feet of client"],
+                ["cold application", "applying an ice pack to an sprained ankle", "vasoconstriction to reduce swelling", "Apply for 20 minutes maximum with a cloth barrier"],
+                ["heat application", "applying a warm moist compress to a localized wound", "vasodilation to increase blood flow", "Monitor skin for burns and limit application to 20 minutes"],
+                ["fecal impaction", "continuous seepage of liquid stool in a constipated client", "overflow around impacted mass", "Perform digital rectal examination or administer oil retention enema"],
+                ["chest tube safety", "accidental disconnection of chest tube from drainage system", "pneumothorax risk", "Submerge distal end of tube in sterile water bottle"],
+                ["gait belt usage", "assisting an unsteady client with walking", "fall prevention", "Place belt securely around waist over clothing"],
+                ["vital sign trends", "pulse rising from 72 to 128 bpm and blood pressure dropping from 120/80 to 88/50 mmHg", "hypovolemic shock", "Notify primary nurse/physician immediately"],
+                ["pain assessment", "evaluating non-verbal client pain", "facial grimacing and guarding", "Use FLACC or non-verbal pain rating scale"],
+                ["oxygen safety", "client using nasal cannula at home", "combustion hazard", "Ensure no open flames, smoking, or petroleum lubricants nearby"],
+                ["pulse deficit", "difference between apical and radial pulse rate", "ineffective peripheral perfusion", "Count apical and radial pulses simultaneously with a second clinician"],
+                ["passive ROM", "moving a client's joint to the point of resistance or pain", "preventing soft tissue injury", "Stop movement immediately if pain or resistance occurs"],
+                ["hearing aid care", "cleaning a client's custom hearing aid", "preventing water damage", "Wipe clean with soft dry cloth and never submerge in water"],
+                ["denture care", "cleaning removable upper and lower dentures", "preventing breakage", "Line sink basin with a towel or fill with water while cleaning"],
+                ["bed making", "changing occupied bed linens", "maintaining alignment and safety", "Keep side rail raised on the side turned away from technician"],
+                ["hair care", "matted tangled hair in a bedridden client", "hygiene maintenance", "Apply alcohol-free conditioner or oil and comb from ends toward scalp"],
+                ["foot care", "caring for feet of a diabetic client", "ulceration and infection risk", "Inspect daily, wash with mild soap, dry between toes, and do not soak"],
+                ["specimen transport", "collecting a routine midstream clean-catch urine", "preventing bacterial contamination", "Clean perineum front to back and collect midstream sample"],
+                ["sputum collection", "obtaining sputum sample for culture", "collecting deep pulmonary secretions", "Collect early morning specimen upon rising after rinsing mouth"],
+                ["occult blood test", "testing stool for hidden blood", "detecting gastrointestinal bleeding", "Apply thin smears of stool from two different areas to guaiac paper"],
+                ["post-mortem care", "caring for a deceased client before family view", "maintaining dignity", "Close eyes, insert dentures, place in supine position with pillow under head"],
+                ["feeding assistance", "feeding a client with left-sided facial weakness", "preventing aspiration", "Place food on unaffected right side of mouth and ensure thick liquids if ordered"],
+                ["hair washing", "shampooing hair in bed", "client comfort and hygiene", "Use a specialized shampoo basin draining into a bucket below bed"],
+                ["anti-embolism stockings", "applying TED hose to post-operative client", "preventing venous thromboembolism", "Ensure smooth fit without wrinkles or rolling down at top"],
+                ["sequential compression", "operating pneumatic compression sleeves", "promoting deep venous return", "Check calf skin regularly and ensure tubing is unkinked"]
+            ];
+
+            fndTopics.forEach((t, idx) => {
+                const itemNum = 21 + idx;
+                const stem = `During daily clinical rounds, a nurse technician evaluates a client presenting with ${t[0]} characterized by ${t[1]}. What is the priority nursing rationale or action?`;
+                const correct = idx % 4;
+                const opts = ["Options A", "Options B", "Options C", "Options D"];
+                opts[correct] = `${t[3]} because of ${t[2]}.`;
+                opts[(correct + 1) % 4] = `Ignore the symptoms until routine physician rounds tomorrow.`;
+                opts[(correct + 2) % 4] = `Administer high-dose IV bolus fluids without an order.`;
+                opts[(correct + 3) % 4] = `Place the client in high Trendelenburg position indefinitely.`;
+
+                makeItem(DOMAINS.FUNDAMENTALS, stem, opts, correct, `Primary clinical management of ${t[0]} centers on ${t[3]} to address ${t[2]}.`);
             });
 
-            document.getElementById('prevBtn').disabled = currentIndex === 0;
-            document.getElementById('questionContentArea').scrollTop = 0;
+            // --- DOMAIN 2: CLINICAL MED-SURG TECH (66 UNIQUE ITEMS: 67 - 132) ---
+            makeItem(DOMAINS.MED_SURG, "A client who underwent total thyroidectomy 12 hours ago reports numbness around the mouth and involuntary muscle twitching in the hands. What complication should the technician suspect?", ["Thyroid storm crisis", "Hypocalcemia due to accidental parathyroid injury", "Acute hyperkalemic paralysis", "Post-operative hypovolemic shock"], 1, "Accidental surgical excision or damage to the parathyroid glands during thyroidectomy causes acute hypocalcemia, leading to perioral paresthesia and tetany.");
 
-            saveState();
+            makeItem(DOMAINS.MED_SURG, "Which clinical sign observed in a client receiving packed red blood cells indicates an acute hemolytic transfusion reaction?", ["Mild localized urticaria and dry cough", "Low back or flank pain, fever, and dark hemoglobinuric urine", "Bilateral pedal edema and elevated blood pressure", "Transient chills without body temperature elevation"], 1, "Acute hemolytic transfusion reactions trigger intravascular hemolysis presenting with flank/back pain, fever, chills, and dark urine.");
+
+            makeItem(DOMAINS.MED_SURG, "A client with type 1 diabetes mellitus is found diaphoresis, shaky, and confused. Capillary blood glucose is 48 mg/dL. The client is conscious and able to swallow. What is the immediate intervention?", ["Administer 10 units of Regular insulin subcutaneously", "Provide 15 to 20 grams of fast-acting oral carbohydrates (e.g., juice)", "Infuse 500 mL of 0.9% Normal Saline IV bolus", "Place the client in Trendelenburg position"], 1, "The 'Rule of 15' dictates giving 15-20g of simple oral carbohydrates for mild-to-moderate hypoglycemia in a conscious patient.");
+
+            makeItem(DOMAINS.MED_SURG, "While caring for a client with a closed chest tube drainage system for a pneumothorax, the technician notes continuous vigorous bubbling in the water-seal chamber. What does this indicate?", ["Normal system operation during exhalation", "An air leak in the chest tube system or client connections", "High negative pressure inside the pleural cavity", "Complete resolution of the pneumothorax"], 1, "Continuous bubbling in the water-seal chamber signifies an active structural air leak in the drainage apparatus or insertion site.");
+
+            makeItem(DOMAINS.MED_SURG, "A client on day 2 post-femur fracture repair suddenly develops acute dyspnea, tachypnea, chest pain, and a petechial rash over the chest and neck. What condition is suspected?", ["Pulmonary fat embolism syndrome", "Bacterial pneumonia", "Congestive heart failure exacerbation", "Pneumothorax"], 0, "Fat embolism syndrome classic triad following long-bone fracture includes respiratory distress, neurological changes, and petechial rash.");
+
+            makeItem(DOMAINS.MED_SURG, "What is the key nursing responsibility when caring for a client with an arteriovenous (AV) fistula in the left forearm for hemodialysis?", ["Measure blood pressure in the left arm every 4 hours", "Palpate for a thrill and listen for a bruit over the fistula site daily", "Perform routine venipunctures for lab work in the left arm", "Keep the left arm immobilized in a sling"], 1, "A patent AV fistula produces a palpable thrill and audible bruit; blood pressure and venipunctures are strictly prohibited in the affected arm.");
+
+            makeItem(DOMAINS.MED_SURG, "A client with deep vein thrombosis (DVT) in the left calf is receiving IV heparin infusion. Which laboratory test measures heparin's therapeutic anticoagulant effect?", ["Prothrombin Time (PT)", "Activated Partial Thromboplastin Time (aPTT)", "International Normalized Ratio (INR)", "Platelet Count"], 1, "Unfractionated IV heparin therapeutic effect is monitored using aPTT, whereas warfarin is monitored using PT/INR.");
+
+            makeItem(DOMAINS.MED_SURG, "A post-operative abdominal surgery client reports a sudden 'popping' sensation while coughing, followed by immediate severe pain. Inspection reveals wound dehiscence. What is the priority initial action?", ["Apply a tight pressure bandage around the abdomen", "Cover the wound with sterile saline-moistened dressings and notify the nurse", "Have the client ambulate to reduce abdominal gas", "Administer oral pain medication immediately"], 1, "Dehisced surgical wounds must be covered immediately with sterile saline-soaked sponges to preserve tissue integrity.");
+
+            makeItem(DOMAINS.MED_SURG, "A client diagnosed with liver cirrhosis presents with severe ascites and dyspnea. In what position should the client be placed to facilitate respiratory chest expansion?", ["Supine with legs elevated", "Fowler's or High-Fowler's position", "Left side-lying Trendelenburg position", "Prone position"], 1, "Fowler's position allows the diaphragm to descend downward by gravity, relieving lung compression from abdominal ascites.");
+
+            makeItem(DOMAINS.MED_SURG, "Which dietary selection is most appropriate for a client diagnosed with chronic kidney disease (CKD) who is not yet on dialysis?", ["High-protein, high-potassium beef stew", "Low-protein, low-potassium, low-phosphorus meals", "High-sodium processed meats and cheeses", "Unlimited citrus fruits and tomato sauces"], 1, "Non-dialyzed CKD clients require protein restriction along with controlled sodium, potassium, and phosphorus to avoid toxic accumulation.");
+
+            makeItem(DOMAINS.MED_SURG, "A client with a new colostomy asks when the ostomy pouch should be emptied. What guidance should the technician provide?", ["Empty when the pouch is completely full to the top", "Empty when the pouch is one-third to one-half full of gas or stool", "Empty once every 3 days regardless of content", "Empty only when the adhesive wafer completely detaches"], 1, "Emptying ostomy bags at 1/3 to 1/2 full prevents weight tension from breaking the peristomal adhesive seal.");
+
+            makeItem(DOMAINS.MED_SURG, "Which assessment finding in a client with a casted leg requires immediate reporting due to suspected compartment syndrome?", ["Mild localized itching under the cast", "Severe pain unrelieved by narcotics, pale toes, and absent distal pulses", "Pink toes with a capillary refill time under 2 seconds", "Warm skin temperature along the exposed thigh"], 1, "The '5 Ps' of compartment syndrome (Pain out of proportion, Paresthesia, Pallor, Paralysis, Pulselessness) require urgent intervention.");
+
+            makeItem(DOMAINS.MED_SURG, "A client with acute pancreatitis complains of severe epigastric pain radiating to the back. Which body position typically offers the most pain relief?", ["Supine with legs extended flat", "Side-lying with knees flexed toward the chest (fetal position)", "Prone position with arms extended", "Standing upright leaning backward"], 1, "Fetal position or leaning forward relaxes abdominal wall tension and reduces retroperitoneal pancreatic stretch.");
+
+            // Generate remaining Med-Surg items (80 to 132) dynamically with distinct clinical scenarios
+            const medSurgTopics = [
+                ["ischemic stroke", "sudden left-sided facial droop and right arm weakness", "neurological ischemic insult", "Perform rapid stroke screening scale and prepare for urgent CT scan"],
+                ["gastrointestinal bleed", "black tarry stools (melena) and orthostatic dizziness", "upper GI bleeding", "Monitor vital signs, obtain hemoglobin levels, and maintain IV access"],
+                ["myocardial infarction", "crushing retrosternal chest pain radiating to jaw and left arm", "myocardial ischemia", "Administer oxygen, obtain 12-lead ECG, and alert code chest pain team"],
+                ["asthma exacerbation", "severe bilateral expiratory wheezing and intercostal retractions", "bronchospasm and airway constriction", "Administer nebulized short-acting beta2-agonist as prescribed"],
+                ["chronic obstructive pulmonary disease", "chronic dyspnea and blood gas showing elevated PaCO2", "hypoxic drive for respiration", "Maintain low-flow oxygen therapy (1-2 L/min) via nasal cannula"],
+                ["heart failure exacerbation", "bilateral lung crackles, dyspnea, and jugular venous distention", "fluid overload", "Administer prescribed loop diuretics and monitor hourly urine output"],
+                ["gouty arthritis", "excruciating pain and swelling in the first metatarsophalangeal joint", "uric acid crystal deposition", "Encourage high fluid intake and avoid high-purine foods like red meat"],
+                ["peptic ulcer perforation", "sudden severe board-like rigid abdomen and severe pain", "peritoneal irritation from gastric contents", "Keep NPO, prepare for immediate surgical evaluation, and notify physician"],
+                ["appendicitis", "sharp pain localized at McBurney's point with rebound tenderness", "acute appendiceal inflammation", "Keep client NPO and avoid applying heat to the abdomen"],
+                ["cholecystitis", "right upper quadrant abdominal pain radiating to right shoulder after fatty meal", "gallbladder inflammation", "Maintain low-fat diet and monitor for jaundice"],
+                ["nephrolithiasis", "severe flank pain radiating to groin with hematuria", "renal calculus passage", "Strain all urine for stone analysis and encourage oral fluids"],
+                ["benign prostatic hyperplasia", "urinary hesitancy, dribbling, and acute urinary retention", "urethral compression", "Prepare for urinary catheter insertion as ordered"],
+                ["hyperthyroidism (Graves)", "heat intolerance, exophthalmos, tachycardia, and weight loss", "excess thyroid hormone", "Provide cool quiet environment and monitor cardiac rhythm"],
+                ["hypothyroidism (Myxedema)", "cold intolerance, severe lethargy, dry skin, and bradycardia", "deficient thyroid hormone", "Monitor vital signs and administer thyroid hormone replacement"],
+                ["Cushing's syndrome", "moon face, buffalo hump, central obesity, and hyperglycemia", "excess glucocorticoids", "Protect skin integrity and monitor blood glucose and infection"],
+                ["Addisonian crisis", "severe hypotension, hyponatremia, hyperkalemia, and shock", "acute adrenal insufficiency", "Prepare IV hydrocortisone administration and isotonic fluid resuscitation"],
+                ["diabetic ketoacidosis (DKA)", "Kussmaul respirations, fruity breath, and blood glucose 450 mg/dL", "metabolic acidosis from ketone accumulation", "Initiate IV normal saline hydration and regular insulin drip"],
+                ["hyperosmolar hyperglycemic state", "profound dehydration, altered mental status, blood glucose 800 mg/dL", "severe osmotic diuresis", "Administer aggressive isotonic IV fluid rehydration"],
+                ["rheumatoid arthritis", "bilateral morning joint stiffness lasting over 1 hour", "systemic autoimmune joint inflammation", "Encourage warm showers in morning and range of motion exercises"],
+                ["osteoarthritis", "joint pain aggravated by weight-bearing exercise and relieved by rest", "degenerative cartilage wear", "Encourage weight loss and low-impact exercise like swimming"],
+                ["osteoporosis", "loss of height, kyphosis, and high fracture risk", "reduced bone mineral density", "Encourage weight-bearing walking and calcium/vitamin D intake"],
+                ["cataract surgery post-op", "mild eye discomfort without severe pain or vision loss", "normal post-op recovery", "Instruct client to avoid bending over, coughing, or heavy lifting"],
+                ["glaucoma", "painless gradual loss of peripheral vision (tunnel vision)", "increased intraocular pressure", "Administer prescribed miotic eye drops consistently"],
+                ["Meniere's disease", "triad of severe vertigo, tinnitus, and sensorineural hearing loss", "inner ear endolymph fluid distention", "Maintain bed rest in quiet darkened room and enforce low-sodium diet"],
+                ["Parkinson's disease", "resting pill-rolling tremor, bradykinesia, and propulsive gait", "dopamine depletion in basal ganglia", "Provide thick liquids, soft foods, and gait safety assistance"],
+                ["multiple sclerosis", "fatigue, muscle spasticity, double vision, and ataxia", "central nervous system demyelination", "Protect from extreme heat exposure and encourage planned rest periods"],
+                ["myasthenia gravis", "progressive muscle weakness worsening with activity and ptosis", "acetylcholine receptor antibody destruction", "Administer anticholinesterase medications strictly on time before meals"],
+                ["seizure precautions", "tonic-clonic motor activity with loss of consciousness", "abnormal cerebral electrical discharge", "Turn client to side, pad side rails, and protect head from injury"],
+                ["bacterial meningitis", "nuchal rigidity, severe headache, fever, and positive Kernig sign", "meningeal inflammation", "Initiate immediate Droplet Precautions and IV antibiotic therapy"],
+                ["increased intracranial pressure", "Cushing's triad: bradycardia, widening pulse pressure, irregular respiration", "brain tissue compression", "Elevate head of bed 30 degrees and maintain head in neutral position"],
+                ["autonomic dysreflexia", "severe throbbing headache and hypertension in spinal cord injury above T6", "uninhibited sympathetic discharge from distended bladder", "Elevate HOB immediately to 90 degrees and check urinary catheter for kink"],
+                ["pleural effusion", "dullness to percussion and absent breath sounds at lung base", "fluid accumulation in pleural space", "Assist with thoracentesis positioning"],
+                ["pneumonia", "fever, productive rust-colored sputum, and bronchial breath sounds", "alveolar consolidation", "Encourage fluids, deep breathing, and administer prescribed antibiotics"],
+                ["pulmonary embolism", "sudden onset pleuritic chest pain, dyspnea, and apprehension", "pulmonary vascular occlusion", "Apply oxygen, elevate HOB, and prepare anticoagulation therapy"],
+                ["tuberculosis", "night sweats, weight loss, low-grade fever, and hemoptysis", "Mycobacterium infection", "Place in negative pressure airborne isolation room"],
+                ["hypovolemic shock", "tachycardia, weak thready pulse, cool clammy skin, and oliguria", "intravascular fluid depletion", "Elevate legs, administer oxygen, and infuse rapid isotonic IV fluids"],
+                ["anaphylactic shock", "bronchospasm, facial angioedema, hypotension, and urticaria", "IgE-mediated systemic vasodilation", "Administer IM epinephrine immediately"],
+                ["septic shock", "fever, severe hypotension refractory to fluids, and elevated lactate", "systemic inflammatory response syndrome", "Obtain blood cultures and administer broad-spectrum IV antibiotics"],
+                ["septicemia", "rigors, high fever, tachypnea, and leukocytosis", "systemic bloodstream infection", "Draw blood cultures before starting antibiotic therapy"],
+                ["peripheral arterial disease", "intermittent claudication pain relieved by resting legs in dependent position", "arterial ischemia", "Instruct client to dangle legs over bed edge and avoid crossing legs"],
+                ["chronic venous insufficiency", "stasis dermatitis, hyperpigmentation, and edema relieved by leg elevation", "venous valve incompetence", "Encourage frequent leg elevation above heart level and compression hose"],
+                ["Raynaud's phenomenon", "bilateral digital pallor followed by cyanosis upon cold exposure", "vasospasm of peripheral arterioles", "Instruct client to wear warm gloves and avoid tobacco use"],
+                ["Buerger's disease", "digital ischemia and pain in male smokers", "thromboangiitis obliterans", "Enforce total smoking cessation"],
+                ["paracentesis care", "removal of 4 liters of abdominal ascites fluid", "fluid shift risk", "Monitor blood pressure for hypovolemia and measure abdominal girth"],
+                ["thoracentesis care", "needle aspiration of pleural fluid", "pneumothorax complication", "Monitor respiratory status and obtain post-procedure chest X-ray"],
+                ["bone marrow biopsy", "posterior iliac crest puncture", "hemorrhage risk", "Apply pressure dressing and position client on affected side for 1 hour"],
+                ["liver biopsy post-op", "percutaneous needle insertion into liver", "bleeding from vascular liver", "Position client on right side for 2 hours to compress puncture site"],
+                ["colonoscopy post-op", "endoscopic visualization of large intestine", "bowel perforation risk", "Monitor for severe abdominal pain, distension, and rectal bleeding"],
+                ["EGD post-op", "upper endoscopy of esophagus and stomach", "absent gag reflex", "Keep NPO until gag reflex returns fully"],
+                ["cardiac catheterization", "femoral artery sheath insertion", "arterial bleeding and hematoma", "Keep affected leg straight and maintain bed rest for prescribed hours"],
+                ["peritoneal dialysis", "cloudy outflow fluid returned from abdominal cavity", "peritonitis infection", "Notify physician and send dialysate effluent for culture"],
+                ["hemodialysis disequilibrium", "headache, confusion, and nausea during dialysis session", "rapid cerebral fluid shifts", "Slow blood flow rate and report symptoms to nephrology team"]
+            ];
+
+            medSurgTopics.forEach((t, idx) => {
+                const stem = `A client presenting with suspected ${t[0]} exhibits ${t[1]}. What is the rationale for the primary nursing intervention?`;
+                const correct = idx % 4;
+                const opts = ["Options A", "Options B", "Options C", "Options D"];
+                opts[correct] = `${t[3]} to address ${t[2]}.`;
+                opts[(correct + 1) % 4] = `Discharge the client immediately without physician evaluation.`;
+                opts[(correct + 2) % 4] = `Place the client on continuous strict bed rest without vital signs monitoring.`;
+                opts[(correct + 3) % 4] = `Apply cold ice packs to the entire spine.`;
+
+                makeItem(DOMAINS.MED_SURG, stem, opts, correct, `Management of ${t[0]} requires ${t[3]} because of ${t[2]}.`);
+            });
+
+            // --- DOMAIN 3: MATERNAL & PEDIATRIC TECH (44 UNIQUE ITEMS: 133 - 176) ---
+            makeItem(DOMAINS.MATERNAL_PEDIATRIC, "During the immediate postpartum assessment 1 hour after vaginal delivery, the technician finds the uterine fundus soft (boggy) and displaced to the right above the umbilicus. What is the initial action?", ["Notify the obstetric surgeon for immediate hysterectomy", "Assist the client to void or catheterize to empty the urinary bladder", "Perform vigorous continuous uterine massage for 2 hours", "Administer intravenous bolus plain sterile water"], 1, "A boggy uterine fundus displaced upward and to the right is caused by a distended bladder, which blocks normal uterine contraction.");
+
+            makeItem(DOMAINS.MATERNAL_PEDIATRIC, "A 3-year-old child with acute laryngotracheobronchitis (croup) presents with inspiratory stridor at rest, intercostal retractions, and agitation. What is the priority nursing action?", ["Force the child to lie flat and inspect throat with a tongue blade", "Maintain a calm environment, keep child in caregiver's lap, and alert the nurse/physician", "Administer oral sedatives to stop crying", "Perform aggressive chest physiotherapy"], 1, "Agitation increases oxygen consumption and airway spasm in croup; keeping the child calm with the caregiver is vital.");
+
+            makeItem(DOMAINS.MATERNAL_PEDIATRIC, "When evaluating a newborn 1 minute after birth, the technician notes heart rate 110 bpm, strong cry, active motion, grimace on suctioning, and pink body with blue extremities. What is the calculated APGAR score?", ["6", "8", "9", "10"], 2, "APGAR breakdown: Heart rate >100 (2), Cry (2), Motion (2), Grimace (1), Acrocyanosis (1) = Total APGAR 8 or 9.");
+
+            makeItem(DOMAINS.MATERNAL_PEDIATRIC, "A pregnant client at 34 weeks gestation presents with painless, bright red vaginal bleeding. Which diagnostic or clinical procedure is strictly contraindicated?", ["External fetal heart rate monitoring", "Digital vaginal examination", "Transabdominal ultrasound scan", "Maternal blood pressure assessment"], 1, "Digital pelvic/vaginal examinations are strictly prohibited in placenta previa due to severe hemorrhage risk.");
+
+            makeItem(DOMAINS.MATERNAL_PEDIATRIC, "A 4-year-old child diagnosed with suspected acute epiglottitis arrives at the emergency department. Which action by the technician is dangerous and contraindicated?", ["Obtaining a throat culture swab using a tongue depressor", "Placing the child in a comfortable sitting position", "Applying humidified blow-by oxygen", "Notifying the pediatric emergency airway team"], 0, "Inserting anything into the mouth or throat during suspected epiglottitis can trigger fatal laryngospasm.");
+
+            makeItem(DOMAINS.MATERNAL_PEDIATRIC, "Which reflex evaluated in a 2-month-old infant is characterized by the fan-out and extension of the toes when the lateral sole of the foot is stroked?", ["Moro reflex", "Babinski reflex", "Palmar grasp reflex", "Tonic neck reflex"], 1, "A positive Babinski sign (fanning of toes) is normal in infants up to 12-24 months of age.");
+
+            makeItem(DOMAINS.MATERNAL_PEDIATRIC, "A postpartum client who is Rh-negative gives birth to an Rh-positive infant. When should Rh repair (RhoGAM) immunoglobulin be administered?", ["Within 72 hours post-delivery", "At 6 weeks postpartum checkup", "Only during the next pregnancy", "Immediately before infant umbilical cord clamping"], 0, "RhoGAM is given within 72 hours post-delivery to Rh-negative mothers delivering Rh-positive infants to prevent maternal isoimmunization.");
+
+            makeItem(DOMAINS.MATERNAL_PEDIATRIC, "What is the recommended injection site for administering intramuscular vaccinations to an infant under 12 months of age?", ["Dorsogluteal muscle", "Vastus lateralis muscle", "Deltoid muscle", "Ventrogluteal muscle"], 1, "The vastus lateralis (anterolateral thigh) is the largest and safest developed muscle mass in infants.");
+
+            makeItem(DOMAINS.MATERNAL_PEDIATRIC, "A primigravida client at 38 weeks gestation reports sudden facial edema, severe headache, and visual spots. Blood pressure is 165/105 mmHg, and urinalysis shows 3+ protein. What condition is present?", ["Gestational diabetes mellitus", "Severe preeclampsia", "Normal discomfort of late pregnancy", "Ectopic pregnancy"], 1, "Hypertension after 20 weeks with proteinuria, headache, and edema defines preeclampsia.");
+
+            makeItem(DOMAINS.MATERNAL_PEDIATRIC, "A 6-month-old infant is brought to the clinic for a routine wellness checkup. Which developmental milestone should the technician expect to observe?", ["Building a tower of 6 wooden blocks", "Rolling over from abdomen to back", "Walking independently without support", "Speaking in full 3-word sentences"], 1, "Infants typically roll from abdomen to back between 4 to 6 months of age.");
+
+            // Generate remaining Maternal-Pediatric items (143 to 176) dynamically
+            const matPedTopics = [
+                ["hyperbilirubinemia", "jaundice visible on the face and sclera of a 3-day-old newborn", "elevated unconjugated bilirubin", "Place infant under phototherapy with eye protection and diaper"],
+                ["infant dehydration", "depressed anterior fontanelle, dry diapers for 8 hours, and tearless crying", "fluid deficit", "Encourage frequent breastfeeding or oral rehydration solution"],
+                ["pyloric stenosis", "non-bilious projectile vomiting after feeding in a 4-week-old infant", "hypertrophied pyloric sphincter", "Monitor for metabolic alkalosis and prepare for surgical pyloromyotomy"],
+                ["intussusception", "sudden episodic abdominal pain, crying with knees pulled to chest, and 'currant jelly' stool", "invagination of bowel segment", "Prepare child for air or barium enema reduction"],
+                ["Hirschsprung disease", "failure to pass meconium within 48 hours of birth and ribbon-like stools", "aganglionic megacolon", "Prepare child for temporary colostomy or pull-through surgery"],
+                ["tetralogy of Fallot", "cyanosis and hypercyanotic 'tet' spell while crying", "right-to-left cardiac shunting", "Place infant in knee-chest position immediately"],
+                ["coarctation of the aorta", "bounding upper extremity pulses with weak delayed femoral pulses", "aortic constriction", "Obtain four-extremity blood pressures"],
+                ["bronchiolitis (RSV)", "tachypnea, wheezing, and copious nasal secretions in a 5-month-old", "viral airway inflammation", "Perform gentle nasal bulb suctioning before feedings"],
+                ["otitis media", "fever and pulling at the right ear in a 14-month-old toddler", "middle ear fluid collection", "Instruct parent on full course of oral antibiotic therapy"],
+                ["cystic fibrosis", "salty-tasting skin, steatorrhea stools, and recurrent chest infections", "exocrine gland dysfunction", "Administer pancreatic enzymes with all meals and snacks"],
+                ["sickle cell vaso-occlusive crisis", "severe joint and bone pain in an 8-year-old child", "microvascular occlusion from sickled RBCs", "Administer aggressive IV hydration, oxygen, and analgesics"],
+                ["hemophilia A", "hemarthrosis and swelling in the knee joint after minor fall", "Factor VIII deficiency", "Elevate joint, apply ice, and prepare Factor VIII replacement"],
+                ["scabies", "pruritic papular rash in finger webs worsening at night in a school-age child", "parasitic mite infestation", "Apply permethrin cream from neck down to whole family"],
+                ["pediculosis capitis (head lice)", "intense scalp itching and silvery nits attached to hair shafts", "lice infestation", "Apply pediculicide shampoo and comb out nits with fine-tooth comb"],
+                ["pinworm (Enterobius)", "perianal nocturnal itching in a 5-year-old child", "helminth infection", "Perform transparent tape test at perianal area early in morning"],
+                ["febrile seizure", "generalized seizure lasting 2 minutes during rapid fever spike to 39.8°C", "rapid temperature rise", "Protect child from injury, maintain open airway, and apply cool compresses"],
+                ["post-tonsillectomy bleeding", "frequent continuous swallowing in a 6-year-old post-op child", "hemorrhage from tonsillar fossa", "Notify surgeon immediately as this indicates swallowed blood"],
+                ["Developmental Dysplasia of Hip", "asymmetrical thigh skin folds and positive Ortolani click in infant", "femoral head dislocation", "Prepare for Pavlik harness application"],
+                ["scoliosis", "lateral S-shaped curvature of the spine noticed during school screening", "spinal asymmetry", "Refer for orthopedic bracing or surgical evaluation"],
+                ["toddler poison ingestion", "accidental ingestion of liquid drain cleaner", "corrosive mucosal damage", "Do not induce vomiting; contact Poison Control Center immediately"],
+                ["iron deficiency anemia", "pallor, fatigue, and low hemoglobin in a 2-year-old drinking excess cow milk", "poor dietary iron absorption", "Limit cow milk intake and give iron supplements with vitamin C"],
+                ["type 1 diabetes in child", "polyuria, polydipsia, weight loss, and bedwetting in an 8-year-old", "pancreatic beta cell destruction", "Initiate subcutaneous insulin regimen and diabetes education"],
+                ["nephrotic syndrome", "profound generalized edema (anasarca) and massive proteinuria", "increased glomerular permeability", "Administer corticosteroids and restrict dietary sodium"],
+                ["acute glomerulonephritis", "dark tea-colored urine, periorbital edema, and hypertension following strep throat", "immune-complex deposition", "Monitor blood pressure, daily weight, and restrict fluid/sodium"],
+                ["postpartum hemorrhage", "excessive vaginal bleeding over 500 mL following delivery", "uterine atony", "Perform firm uterine fundal massage and administer oxytocin"],
+                ["mastitis", "painful wedge-shaped red area on breast with fever in a lactating mother", "breast tissue infection", "Encourage frequent breastfeeding and administer antibiotics"],
+                ["lochia rubra", "bright red vaginal discharge with small clots on postpartum day 2", "normal uterine shedding", "Document normal finding and change perineal pads regularly"],
+                ["lochia serosa", "pinkish-brown serosanguinous discharge on postpartum day 6", "normal lochial progression", "Reassure client of expected healing process"],
+                ["lochia alba", "yellowish-white discharge on postpartum day 14", "final lochial stage", "Document as normal expected finding"],
+                ["engorgement", "bilateral hard, swollen, painful breasts on postpartum day 4", "vascular congestion and milk accumulation", "Apply warm compresses before feeding and express milk"],
+                ["fetal acceleration", "transient increase in fetal heart rate of 15 bpm for 15 seconds on monitor", "normal fetal movement and oxygenation", "Document as a reassuring sign of fetal well-being"],
+                ["early decelerations", "symmetrical drop in FHR matching the uterine contraction peak", "fetal head compression", "Document as normal benign physiological response"],
+                ["late decelerations", "FHR deceleration beginning after contraction peak with slow return", "uteroplacental insufficiency", "Turn mother to left side, give oxygen, and stop oxytocin"],
+                ["variable decelerations", "abrupt V-shaped drop in FHR unrelated to contractions", "umbilical cord compression", "Reposition mother to side or knee-chest position"]
+            ];
+
+            matPedTopics.forEach((t, idx) => {
+                const stem = `A nurse technician caring for a pediatric or maternal client identifies ${t[0]} characterized by ${t[1]}. What is the primary clinical justification for the appropriate management?`;
+                const correct = idx % 4;
+                const opts = ["Options A", "Options B", "Options C", "Options D"];
+                opts[correct] = `${t[3]} to treat ${t[2]}.`;
+                opts[(correct + 1) % 4] = `Ignore the symptoms as normal developmental variation.`;
+                opts[(correct + 2) % 4] = `Administer high-dose adult IV medications immediately.`;
+                opts[(correct + 3) % 4] = `Restrict all infant nutrition for 72 hours.`;
+
+                makeItem(DOMAINS.MATERNAL_PEDIATRIC, stem, opts, correct, `Care for ${t[0]} centers on ${t[3]} to address ${t[2]}.`);
+            });
+
+            // --- DOMAIN 4: PATIENT SAFETY & ETHICS (22 UNIQUE ITEMS: 177 - 198) ---
+            makeItem(DOMAINS.SAFETY_ETHICS, "While preparing to administer a morning medication, a technician notices that the patient identification wristband is missing. What is the correct action?", ["Proceed with administration because the client answered to their name", "Verify identity using two approved patient identifiers (e.g., verbal name and DOB against chart) and replace wristband", "Ask the neighboring client to confirm the identity", "Omit the medication without notifying anyone"], 1, "National Patient Safety Goals require two unique identifiers prior to any medication or procedure.");
+
+            makeItem(DOMAINS.SAFETY_ETHICS, "A client diagnosed with terminal cancer requests that their medical details not be shared with family members. A family member demands information from the technician. What ethical principle guides the response?", ["Beneficence", "Autonomy and Patient Confidentiality (HIPAA)", "Justice", "Non-maleficence"], 1, "Client autonomy and legal confidentiality require protecting client privacy unless explicit permission is granted.");
+
+            makeItem(DOMAINS.SAFETY_ETHICS, "Which action by a healthcare worker demonstrates compliance with Standard Precautions?", ["Wearing clean gloves when touching intact, dry skin", "Wearing clean gloves whenever contacting blood, body fluids, or non-intact skin", "Wearing an N95 respirator for all client interactions", "Reusing disposable gloves between non-infectious clients"], 1, "Standard Precautions mandate gloves for any potential exposure to blood, body fluids, mucous membranes, or non-intact skin.");
+
+            makeItem(DOMAINS.SAFETY_ETHICS, "A technician discovers a small waste basket fire in a client room. According to the RACE fire safety protocol, what is the very first action?", ["Extinguish the fire with a C-type extinguisher", "Rescue/remove any clients in immediate danger", "Activate the facility fire alarm system", "Confine the fire by closing all doors"], 1, "RACE protocol order: Rescue clients in immediate danger, Activate alarm, Confine fire, Extinguish/Evacuate.");
+
+            // Generate remaining Safety & Ethics items (181 to 198)
+            const safetyTopics = [
+                ["needle stick injury", "accidental puncture with a used hollow-bore needle", "bloodborne pathogen risk", "Wash wound with soap and water immediately and report to occupational health"],
+                ["fall prevention", "an elderly confused client attempting to climb out of bed", "high risk for traumatic fracture", "Place bed in lowest position, enable bed alarm, and stay with client"],
+                ["restraint orders", "applying wrist restraints to a violent confused client", "prevention of unauthorized physical restraint", "Obtain a written physician order within prescribed time limits"],
+                ["informed consent", "a client expressing confusion about an upcoming surgical procedure", "client autonomy and legal standard", "Notify surgeon to return and explain the procedure before signing"],
+                ["incipient error", "discovering a wrong medication dose prepared by pharmacy before giving it", "near-miss event", "Report the near-miss incident via hospital safety reporting system"],
+                ["blood spill", "50 mL blood spill on hallway floor", "environmental biohazard", "Use hospital disinfectant spill kit with appropriate PPE"],
+                ["hand hygiene breach", "using hand rub when hands are visibly soiled with organic material", "ineffective decontamination", "Wash hands with soap and running water"],
+                ["sharp disposal", "disposing of an unsheathed needle into a full overfilled sharps box", "needle stick hazard", "Replace sharps container when 2/3 full and never force items inside"],
+                ["chemical hazard (PASS)", "operating a fire extinguisher on a electrical fire", "proper extinguisher technique", "Pull pin, Aim at base of fire, Squeeze handle, Sweep side-to-side"],
+                ["organ donation", "family asking about organ donation for a brain-dead client", "ethical organ procurement", "Refer family to designated organ procurement representative"],
+                ["malpractice prevention", "documenting nursing care 4 hours after shift ended", "accurate medical-legal record", "Document care contemporaneously and accurately in medical record"],
+                ["beneficence", "holding the hand of an anxious client undergoing painful dressing change", "doing good and easing suffering", "Provide compassionate comfort measures"],
+                ["non-maleficence", "refusing to administer a medication with a tenfold dosage error", "duty to do no harm", "Question unsafe dosage orders with prescribing clinician"],
+                ["justice", "allocating equal care time to all assigned clients regardless of background", "fairness and equity", "Provide equitable care based on clinical need"],
+                ["veracity", "answering truthfully when a client asks if an injection will hurt", "honesty in therapeutic relationship", "Acknowledge mild discomfort accurately"],
+                ["fidelity", "returning to check on a client in pain exactly at promised time", "keeping commitments", "Fulfill promises made to clients to build trust"],
+                ["whistleblowing", "observing a colleague stealing narcotics from pyxis", "patient safety and legal breach", "Report impaired or dishonest practice to supervisor immediately"],
+                ["advance directives", "a DNR order present in the chart during cardiac arrest", "honoring client end-of-life choices", "Withhold cardiopulmonary resuscitation and notify medical team"]
+            ];
+
+            safetyTopics.forEach((t, idx) => {
+                const stem = `When faced with a clinical scenario involving ${t[0]} presented as ${t[1]}, what is the primary safety or ethical protocol?`;
+                const correct = idx % 4;
+                const opts = ["Options A", "Options B", "Options C", "Options D"];
+                opts[correct] = `${t[3]} because of ${t[2]}.`;
+                opts[(correct + 1) % 4] = `Ignore facility policy and personal accountability.`;
+                opts[(correct + 2) % 4] = `Conceal the event from quality improvement committees.`;
+                opts[(correct + 3) % 4] = `Delegate responsibility to unregistered housekeeping staff.`;
+
+                makeItem(DOMAINS.SAFETY_ETHICS, stem, opts, correct, `Ethics and safety standards require ${t[3]} to address ${t[2]}.`);
+            });
+
+            // --- DOMAIN 5: EMERGENCY FIRST RESPONSE (22 UNIQUE ITEMS: 199 - 220) ---
+            makeItem(DOMAINS.EMERGENCY, "A technician finds an adult client unresponsive on the floor of a hospital room. After verifying that the scene is safe, what is the next immediate step in Basic Life Support (BLS)?", ["Deliver 2 rescue breaths", "Tap shoulders and shout to assess responsiveness while calling for help", "Begin 30 chest compressions", "Attach AED electrode pads"], 1, "BLS sequence: Verify scene safety, check responsiveness ('Tap & Shout'), activate emergency response/get AED, and check pulse/breathing.");
+
+            makeItem(DOMAINS.EMERGENCY, "When performing high-quality chest compressions on an adult in cardiac arrest, what is the correct compression depth and rate?", ["At least 2 inches (5 cm) deep at a rate of 100 to 120 compressions/min", "1 inch deep at a rate of 60 compressions/min", "3 inches deep at a rate of 140 compressions/min", "1.5 inches deep at a rate of 80 compressions/min"], 0, "High-quality adult CPR requires chest compressions of 2 to 2.4 inches (5-6 cm) depth at 100-120 compressions per minute.");
+
+            makeItem(DOMAINS.EMERGENCY, "A conscious adult client in the dining room suddenly clutches their neck, cannot speak or cough, and turns cyanotic. What immediate emergency action should be taken?", ["Perform abdominal thrusts (Heimlich maneuver)", "Administer 5 back blows followed by 2 rescue breaths", "Offer a glass of warm water to flush down the object", "Begin chest compressions immediately"], 0, "Severe airway obstruction in a conscious adult requires rapid abdominal thrusts (Heimlich) until the object is expelled or client loses consciousness.");
+
+            makeItem(DOMAINS.EMERGENCY, "An Automated External Defibrillator (AED) arrives at the scene of a cardiac arrest and analyzes the cardiac rhythm, announcing 'Shock Advised'. What is the mandatory action before pressing the shock button?", ["Ensure chest compressions continue during shock delivery", "Shout 'Clear!' and visually ensure no one is touching the client", "Administer 1 mg IV epinephrine", "Insert an advanced endotracheal airway"], 1, "Safety requires ensuring no rescuer or bystander is in contact with the client before delivering an electrical shock.");
+
+            // Generate remaining Emergency items (203 to 220)
+            const emergencyTopics = [
+                ["infant CPR ratio", "two-rescuer CPR on an infant without advanced airway", "optimized ventilation/perfusion", "Use 15 compressions to 2 ventilations ratio"],
+                ["infant choking", "conscious 8-month-old infant with severe foreign body airway obstruction", "expelling obstruction safely", "Deliver 5 back blows followed by 5 chest thrusts"],
+                ["anaphylactic airway edema", "stinger wound causing rapid tongue swelling and stridor", "airway patency risk", "Administer IM epinephrine into anterolateral thigh immediately"],
+                ["severe arterial hemorrhage", "bright red spurting blood from a deep thigh laceration", "exsanguination prevention", "Apply direct firm pressure over wound and apply pressure bandage"],
+                ["heat stroke", "hot dry red skin, confusion, and body temp of 41°C", "hyperthermic organ damage", "Initiate rapid cooling with ice packs to groin/axilla and cold water immersion"],
+                ["hypothermia", "core body temperature of 31°C with severe shivering and bradycardia", "ventricular fibrillation risk", "Handle gently and apply passive and active external rewarming"],
+                ["flail chest", "paradoxical movement of a chest segment during respiration", "rib fracture instability", "Stabilize chest wall segment and apply oxygen"],
+                ["tension pneumothorax", "tracheal deviation away from affected side with absent breath sounds", "obstructive shock from mediastinal shift", "Prepare for immediate needle decompression"],
+                ["burn triage (Rule of Nines)", "full-thickness burns covering anterior chest and abdomen", "fluid resuscitation calculation", "Calculate total body surface area burn at 18%"],
+                ["chemical eye burn", "industrial acid splash to both eyes", "corneal tissue destruction", "Flush eyes immediately with continuous saline or water for 15-20 minutes"],
+                ["frostbite", "white waxy firm toes after prolonged freezing exposure", "tissue ischemia", "Re-warm rapidly in water bath heated to 37°C - 42°C"],
+                ["snake bite", "pit viper bite to forearm with localized edema", "envenomation damage", "Immobilize extremity at heart level and do not apply ice or tourniquet"],
+                ["carbon monoxide poisoning", "headache, cherry-red skin, and dizziness in a home fire victim", "carboxyhemoglobin tissue hypoxia", "Administer 100% hyperbaric or high-flow oxygen via non-rebreather mask"],
+                ["seizure in emergency", "active tonic-clonic movement on floor", "aspiration and trauma prevention", "Clear surrounding objects, turn on side, and do not insert anything in mouth"],
+                ["hypovolemic shock in trauma", "penetrating abdominal wound with BP 70/40 mmHg and pulse 140 bpm", "acute blood loss", "Establish 2 large-bore IV lines and rapidly infuse warm normal saline"],
+                ["tourniquet application", "uncontrolled arterial limb bleeding unresponsive to direct pressure", "life-threatening hemorrhage", "Apply commercial tourniquet 2-3 inches proximal to wound and tighten"],
+                ["cervical spine trauma", "unconscious motor vehicle accident victim", "spinal cord injury prevention", "Maintain manual in-line cervical spine stabilization"],
+                ["evisceration in trauma", "abdominal laceration with protruding bowel loops", "organ necrosis and sepsis", "Cover exposed bowel with sterile saline-soaked gauze"]
+            ];
+
+            emergencyTopics.forEach((t, idx) => {
+                const stem = `During an emergency first response situation involving ${t[0]} presenting with ${t[1]}, what is the critical initial response?`;
+                const correct = idx % 4;
+                const opts = ["Options A", "Options B", "Options C", "Options D"];
+                opts[correct] = `${t[3]} to address ${t[2]}.`;
+                opts[(correct + 1) % 4] = `Delay response until routine clinic opening hours.`;
+                opts[(correct + 2) % 4] = `Administer high-dose oral sedatives to the victim.`;
+                opts[(correct + 3) % 4] = `Encourage heavy exercise to stimulate circulation.`;
+
+                makeItem(DOMAINS.EMERGENCY, stem, opts, correct, `Emergency BLS protocol requires ${t[3]} to address ${t[2]}.`);
+            });
+
+            return list;
         }
 
-        function selectOption(optIdx) {
-            userAnswers[currentIndex] = optIdx;
-            updateGridBtn(currentIndex);
-            renderQuestion();
-            updateProgressCounters();
+        // INITIALIZATION ON DOM READY
+        window.addEventListener('DOMContentLoaded', () => {
+            initExamEngine();
+            initTheme();
+        });
+
+        function initExamEngine() {
+            examData = generate220UniqueQuestions();
+            
+            // LocalStorage Restore
+            const savedAnswers = localStorage.getItem('scfhs_answers_v2');
+            const savedFlags = localStorage.getItem('scfhs_flags_v2');
+            const savedTime = localStorage.getItem('scfhs_time_v2');
+
+            if (savedAnswers) userAnswers = JSON.parse(savedAnswers);
+            if (savedFlags) flaggedQuestions = new Set(JSON.parse(savedFlags));
+            if (savedTime) timeRemainingSeconds = parseInt(savedTime, 10);
+
+            // Hide loading, display exam interface
+            document.getElementById('loading-screen').classList.add('hidden');
+            document.getElementById('exam-screen').classList.remove('hidden');
+
+            buildQuestionGrid();
+            renderQuestion(0);
+            startTimer();
         }
 
-        function clearCurrentAnswer() {
-            userAnswers[currentIndex] = null;
-            updateGridBtn(currentIndex);
-            renderQuestion();
-            updateProgressCounters();
+        // RENDER ACTIVE QUESTION
+        function renderQuestion(index) {
+            currentQuestionIndex = index;
+            showRationaleCurrent = false;
+            document.getElementById('rationale-drawer').classList.add('hidden');
+            document.getElementById('rationale-btn-text').textContent = "Show Explanation";
+
+            const q = examData[index];
+
+            document.getElementById('q-number-badge').textContent = `Question ${index + 1} of ${examData.length}`;
+            document.getElementById('q-domain-badge').textContent = q.domain;
+            document.getElementById('q-stem').textContent = q.stem;
+            document.getElementById('rationale-content').textContent = q.rationale;
+
+            // Flag Styling
+            const isFlagged = flaggedQuestions.has(index);
+            const flagBtn = document.getElementById('flag-btn');
+            const flagIcon = document.getElementById('flag-icon');
+            const flagText = document.getElementById('flag-text');
+
+            if (isFlagged) {
+                flagBtn.classList.add('border-amber-500', 'text-amber-600', 'bg-amber-50', 'dark:bg-amber-950/30');
+                flagIcon.className = "fa-solid fa-bookmark text-amber-500";
+                flagText.textContent = "Flagged";
+            } else {
+                flagBtn.classList.remove('border-amber-500', 'text-amber-600', 'bg-amber-50', 'dark:bg-amber-950/30');
+                flagIcon.className = "fa-regular fa-bookmark";
+                flagText.textContent = "Flag";
+            }
+
+            // Options
+            const optionsContainer = document.getElementById('q-options');
+            optionsContainer.innerHTML = '';
+
+            const selectedOption = userAnswers[index];
+
+            q.options.forEach((optText, optIdx) => {
+                const optLetter = String.fromCharCode(65 + optIdx);
+                const isSelected = selectedOption === optIdx;
+
+                const optButton = document.createElement('button');
+                optButton.className = `w-full text-left p-4 rounded-xl border-2 flex items-start space-x-3 transition.all ${
+                    isSelected 
+                    ? 'border-scfhs-600 bg-blue-50/70 dark:bg-slate-700/80 dark:border-blue-400 shadow-xs' 
+                    : 'border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600 bg-white dark:bg-slate-800'
+                }`;
+
+                optButton.onclick = () => selectOption(index, optIdx);
+
+                optButton.innerHTML = `
+                    <span class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 ${
+                        isSelected 
+                        ? 'bg-scfhs-600 text-white' 
+                        : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300'
+                    }">
+                        ${optLetter}
+                    </span>
+                    <span class="text-sm md:text-base text-gray-800 dark:text-gray-200 pt-0.5">${optText}</span>
+                `;
+
+                optionsContainer.appendChild(optButton);
+            });
+
+            // Prev / Next State
+            document.getElementById('prev-btn').disabled = (index === 0);
+            const nextBtn = document.getElementById('next-btn');
+            if (index === examData.length - 1) {
+                nextBtn.innerHTML = `Review Exam <i class="fa-solid fa-check text-xs"></i>`;
+            } else {
+                nextBtn.innerHTML = `Next <i class="fa-solid fa-chevron-right text-xs"></i>`;
+            }
+
+            updateGridStats();
+            highlightGridButton(index);
         }
 
+        // OPTION SELECTION LOGIC
+        function selectOption(qIdx, optIdx) {
+            userAnswers[qIdx] = optIdx;
+            localStorage.setItem('scfhs_answers_v2', JSON.stringify(userAnswers));
+            renderQuestion(qIdx);
+            updateGridButtonState(qIdx);
+        }
+
+        // IN-EXAM RATIONALE TOGGLE
+        function toggleCurrentRationale() {
+            showRationaleCurrent = !showRationaleCurrent;
+            const drawer = document.getElementById('rationale-drawer');
+            const btnText = document.getElementById('rationale-btn-text');
+            if (showRationaleCurrent) {
+                drawer.classList.remove('hidden');
+                btnText.textContent = "Hide Explanation";
+            } else {
+                drawer.classList.add('hidden');
+                btnText.textContent = "Show Explanation";
+            }
+        }
+
+        // FLAG TOGGLE LOGIC
         function toggleFlagCurrentQuestion() {
-            flaggedItems[currentIndex] = !flaggedItems[currentIndex];
-            updateGridBtn(currentIndex);
-            renderQuestion();
+            if (flaggedQuestions.has(currentQuestionIndex)) {
+                flaggedQuestions.delete(currentQuestionIndex);
+            } else {
+                flaggedQuestions.add(currentQuestionIndex);
+            }
+            localStorage.setItem('scfhs_flags_v2', JSON.stringify(Array.from(flaggedQuestions)));
+            renderQuestion(currentQuestionIndex);
+            updateGridButtonState(currentQuestionIndex);
         }
 
-        function navigateQuestion(dir) {
-            const old = currentIndex;
-            currentIndex += dir;
-            if (currentIndex < 0) currentIndex = 0;
-            if (currentIndex >= 220) currentIndex = 219;
-            updateGridBtn(old);
-            updateGridBtn(currentIndex);
-            renderQuestion();
+        // NAVIGATION
+        function navigateQuestion(direction) {
+            const target = currentQuestionIndex + direction;
+            if (target >= 0 && target < examData.length) {
+                renderQuestion(target);
+            } else if (target >= examData.length) {
+                confirmSubmitExam();
+            }
         }
 
-        function jumpToQuestion(idx) {
-            const old = currentIndex;
-            currentIndex = idx;
-            updateGridBtn(old);
-            updateGridBtn(currentIndex);
-            renderQuestion();
-            if (window.innerWidth < 768) toggleNavDrawer();
+        // QUESTION GRID BUILDER
+        function buildQuestionGrid() {
+            const container = document.getElementById('grid-container');
+            container.innerHTML = '';
+
+            examData.forEach((_, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `grid-btn-${idx}`;
+                btn.onclick = () => renderQuestion(idx);
+                btn.textContent = idx + 1;
+                btn.className = getGridButtonClasses(idx);
+                container.appendChild(btn);
+            });
         }
 
-        function updateProgressCounters() {
-            const answered = userAnswers.filter(a => a !== null).length;
-            document.getElementById('completionCounter').textContent = `${answered} / 220`;
+        function getGridButtonClasses(idx) {
+            const isAnswered = userAnswers.hasOwnProperty(idx);
+            const isFlagged = flaggedQuestions.has(idx);
+            const isCurrent = idx === currentQuestionIndex;
+
+            let classes = "h-8 rounded-lg border text-center transition flex items-center justify-center relative font-mono text-xs ";
+
+            if (isCurrent) {
+                classes += "ring-2 ring-scfhs-600 font-extrabold ";
+            }
+
+            if (isAnswered) {
+                classes += "bg-scfhs-600 text-white border-scfhs-600 ";
+            } else {
+                classes += "bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-slate-600 ";
+            }
+
+            if (isFlagged) {
+                classes += "after:content-[''] after:absolute after:top-1 after:right-1 after:w-2 after:h-2 after:bg-amber-400 after:rounded-full ";
+            }
+
+            return classes;
         }
 
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                if (timeRemainingSeconds <= 0) {
-                    clearInterval(timerInterval);
-                    alert("Exam duration completed. Automatic final evaluation initiated.");
-                    finalizeExam();
-                    return;
+        function updateGridButtonState(idx) {
+            const btn = document.getElementById(`grid-btn-${idx}`);
+            if (btn) btn.className = getGridButtonClasses(idx);
+        }
+
+        function highlightGridButton(idx) {
+            examData.forEach((_, i) => updateGridButtonState(i));
+        }
+
+        function updateGridStats() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const flaggedCount = flaggedQuestions.size;
+            const unansweredCount = examData.length - answeredCount;
+
+            document.getElementById('stat-answered').textContent = answeredCount;
+            document.getElementById('stat-unanswered').textContent = unansweredCount;
+            document.getElementById('stat-flagged').textContent = flaggedCount;
+        }
+
+        // GRID FILTER LOGIC
+        function setGridFilter(filter) {
+            currentGridFilter = filter;
+            ['all', 'unanswered', 'flagged'].forEach(f => {
+                const btn = document.getElementById(`filter-${f}`);
+                if (f === filter) {
+                    btn.className = "flex-1 py-1 rounded bg-white dark:bg-slate-800 shadow-xs text-scfhs-700 dark:text-blue-400 font-bold";
+                } else {
+                    btn.className = "flex-1 py-1 rounded text-gray-600 dark:text-gray-300";
                 }
-                timeRemainingSeconds--;
-                updateTimerDisplay();
+            });
+
+            examData.forEach((_, idx) => {
+                const btn = document.getElementById(`grid-btn-${idx}`);
+                const isAnswered = userAnswers.hasOwnProperty(idx);
+                const isFlagged = flaggedQuestions.has(idx);
+
+                if (filter === 'all') {
+                    btn.classList.remove('hidden');
+                } else if (filter === 'unanswered' && !isAnswered) {
+                    btn.classList.remove('hidden');
+                } else if (filter === 'flagged' && isFlagged) {
+                    btn.classList.remove('hidden');
+                } else {
+                    btn.classList.add('hidden');
+                }
+            });
+        }
+
+        // TIMER ENGINE
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (!isTimerPaused) {
+                    timeRemainingSeconds--;
+                    localStorage.setItem('scfhs_time_v2', timeRemainingSeconds);
+                    updateTimerDisplay();
+
+                    if (timeRemainingSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        alert("Time limit expired! Submitting your examination automatically.");
+                        executeExamSubmission();
+                    }
+                }
             }, 1000);
         }
 
         function updateTimerDisplay() {
-            const h = Math.floor(timeRemainingSeconds / 3600);
-            const m = Math.floor((timeRemainingSeconds % 3600) / 60);
-            const s = timeRemainingSeconds % 60;
-            document.getElementById('timerDisplay').textContent = 
-                `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            const hours = Math.floor(timeRemainingSeconds / 3600);
+            const minutes = Math.floor((timeRemainingSeconds % 3600) / 60);
+            const seconds = timeRemainingSeconds % 60;
+
+            document.getElementById('timer-display').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
 
-        function saveState() {
-            const state = { userAnswers, flaggedItems, timeRemainingSeconds, currentIndex };
-            localStorage.setItem('scfhs_tech_prometric_state_v5', JSON.stringify(state));
-        }
-
-        function loadSavedState() {
-            const saved = localStorage.getItem('scfhs_tech_prometric_state_v5');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    if (parsed.userAnswers && parsed.userAnswers.length === 220) {
-                        userAnswers = parsed.userAnswers;
-                        flaggedItems = parsed.flaggedItems || flaggedItems;
-                        timeRemainingSeconds = parsed.timeRemainingSeconds || timeRemainingSeconds;
-                        currentIndex = parsed.currentIndex || 0;
-                    }
-                } catch(e) {
-                    console.error("Error loading saved state", e);
-                }
-            }
-        }
-
-        function toggleNavDrawer() {
-            document.getElementById('navDrawer').classList.toggle('-translate-x-full');
-        }
-
-        function changeFontSize(sz) {
-            const c = document.getElementById('questionTextContainer');
-            c.classList.remove('font-sz-sm', 'font-sz-md', 'font-sz-lg', 'font-sz-xl');
-            if (sz === 'sm') c.classList.add('font-sz-sm');
-            if (sz === 'md') c.classList.add('font-sz-md');
-            if (sz === 'lg') c.classList.add('font-sz-lg');
-        }
-
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            const icon = document.getElementById('themeIcon');
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                icon.className = "fa-solid fa-moon text-sm";
+        function togglePauseTimer() {
+            isTimerPaused = !isTimerPaused;
+            const icon = document.getElementById('pause-icon');
+            if (isTimerPaused) {
+                icon.className = "fa-solid fa-play";
             } else {
-                html.classList.add('dark');
-                icon.className = "fa-solid fa-sun text-sm text-amber-400";
+                icon.className = "fa-solid fa-pause";
             }
         }
 
-        function toggleCalculator() {
-            document.getElementById('calculatorModal').classList.toggle('hidden');
+        // SUBMISSION LOGIC
+        function confirmSubmitExam() {
+            const unanswered = examData.length - Object.keys(userAnswers).length;
+            const msg = document.getElementById('submit-modal-msg');
+            if (unanswered > 0) {
+                msg.innerHTML = `You have <strong class="text-amber-600 font-bold">${unanswered} unanswered items</strong> remaining out of 220. Unanswered items will be marked incorrect. Are you sure you wish to submit?`;
+            } else {
+                msg.textContent = "All 220 items have been answered! Ready to calculate your score?";
+            }
+            toggleModal('submit-modal');
         }
 
-        function calcInput(v) {
-            const s = document.getElementById('calcScreen');
-            if (s.value === '0' || s.value === 'Error') s.value = '';
-            s.value += v;
-        }
-
-        function calcClear() {
-            document.getElementById('calcScreen').value = '0';
-        }
-
-        function calcEqual() {
-            const s = document.getElementById('calcScreen');
-            try { s.value = eval(s.value); } catch(e) { s.value = 'Error'; }
-        }
-
-        function confirmSubmitModal() {
-            const answered = userAnswers.filter(a => a !== null).length;
-            const unanswered = 220 - answered;
-
-            document.getElementById('modalAnsweredCount').textContent = answered;
-            document.getElementById('modalUnansweredCount').textContent = unanswered;
-
-            const warn = document.getElementById('unansweredWarning');
-            if (unanswered > 0) warn.classList.remove('hidden');
-            else warn.classList.add('hidden');
-
-            document.getElementById('submitModal').classList.remove('hidden');
-        }
-
-        function closeSubmitModal() {
-            document.getElementById('submitModal').classList.add('hidden');
-        }
-
-        function finalizeExam() {
-            closeSubmitModal();
+        function executeExamSubmission() {
             clearInterval(timerInterval);
-            isSubmitted = true;
-            localStorage.removeItem('scfhs_tech_prometric_state_v5');
+            toggleModal('submit-modal');
 
-            document.getElementById('examContainer').classList.add('hidden');
-            document.getElementById('resultsContainer').classList.remove('hidden');
+            document.getElementById('exam-screen').classList.add('hidden');
+            document.getElementById('results-screen').classList.remove('hidden');
 
-            calculateResults();
-        }
-
-        function calculateResults() {
-            let correctCount = 0;
-            const domainStats = {};
+            let correctTotal = 0;
+            const domainScores = {};
 
             Object.values(DOMAINS).forEach(d => {
-                domainStats[d] = { total: 0, correct: 0 };
+                domainScores[d] = { total: 0, correct: 0 };
             });
 
-            examQuestions.forEach((q, idx) => {
-                const userAns = userAnswers[idx];
-                const isCorrect = userAns === q.correctIndex;
-
-                if (isCorrect) correctCount++;
-
-                if (domainStats[q.domain]) {
-                    domainStats[q.domain].total++;
-                    if (isCorrect) domainStats[q.domain].correct++;
+            examData.forEach((q, idx) => {
+                if (!domainScores[q.domain]) {
+                    domainScores[q.domain] = { total: 0, correct: 0 };
+                }
+                domainScores[q.domain].total++;
+                if (userAnswers[idx] === q.correct) {
+                    correctTotal++;
+                    domainScores[q.domain].correct++;
                 }
             });
 
-            const percentage = Math.round((correctCount / 220) * 100);
-            const isPassed = percentage >= 60;
+            const scorePercent = ((correctTotal / examData.length) * 100).toFixed(1);
+            const isPass = scorePercent >= 60.0;
 
-            const banner = document.getElementById('scoreBanner');
-            const passFailText = document.getElementById('passFailText');
-            document.getElementById('scorePercentage').textContent = `${percentage}%`;
-            document.getElementById('scoreRatio').textContent = `${correctCount} / 220 Correct`;
-
-            if (isPassed) {
-                banner.className = "p-6 rounded-xl shadow-xl border text-white flex flex-col md:flex-row justify-between items-center bg-gradient-to-r from-emerald-800 to-teal-900 border-emerald-600";
-                passFailText.textContent = "RESULT: PASSED";
+            // Render Header Badge
+            const badgeContainer = document.getElementById('pass-fail-badge');
+            if (isPass) {
+                badgeContainer.className = "px-6 py-3 rounded-xl text-center bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 font-black border border-emerald-300";
+                badgeContainer.innerHTML = `<span class="text-xl tracking-wider uppercase"><i class="fa-solid fa-circle-check"></i> PASSED</span>`;
             } else {
-                banner.className = "p-6 rounded-xl shadow-xl border text-white flex flex-col md:flex-row justify-between items-center bg-gradient-to-r from-rose-900 to-red-950 border-rose-700";
-                passFailText.textContent = "RESULT: FAILED";
+                badgeContainer.className = "px-6 py-3 rounded-xl text-center bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 font-black border border-rose-300";
+                badgeContainer.innerHTML = `<span class="text-xl tracking-wider uppercase"><i class="fa-solid fa-circle-xmark"></i> FAILED</span>`;
             }
 
-            const domainContainer = document.getElementById('domainMetricsContainer');
+            document.getElementById('score-percentage').textContent = `${scorePercent}%`;
+            document.getElementById('score-raw').textContent = `${correctTotal} / ${examData.length} Correct`;
+
+            // Render Domain Breakdown
+            const domainContainer = document.getElementById('domain-breakdown-container');
             domainContainer.innerHTML = '';
 
-            Object.keys(domainStats).forEach(domName => {
-                const st = domainStats[domName];
-                const pct = st.total > 0 ? Math.round((st.correct / st.total) * 100) : 0;
-
+            Object.entries(domainScores).forEach(([domainName, data]) => {
+                const domPercent = data.total > 0 ? ((data.correct / data.total) * 100).toFixed(0) : 0;
                 const card = document.createElement('div');
-                card.className = "p-4 bg-slate-50 dark:bg-slate-900/60 rounded-lg border border-slate-200 dark:border-slate-700";
+                card.className = "p-4 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900/40 space-y-2";
                 card.innerHTML = `
-                    <div class="flex justify-between items-center mb-1 text-xs font-bold">
-                        <span class="text-slate-700 dark:text-slate-300">${domName}</span>
-                        <span class="${pct >= 60 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">${pct}% (${st.correct}/${st.total})</span>
+                    <div class="flex justify-between items-center text-xs font-bold">
+                        <span class="text-gray-800 dark:text-gray-200">${domainName}</span>
+                        <span class="text-scfhs-700 dark:text-blue-400 font-mono">${data.correct}/${data.total} (${domPercent}%)</span>
                     </div>
-                    <div class="w-full bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
-                        <div class="h-full ${pct >= 60 ? 'bg-emerald-500' : 'bg-rose-500'}" style="width: ${pct}%"></div>
+                    <div class="w-full bg-gray-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
+                        <div class="bg-scfhs-600 h-full rounded-full transition-all duration-500" style="width: ${domPercent}%"></div>
                     </div>
                 `;
                 domainContainer.appendChild(card);
             });
 
-            renderReviewList();
+            renderReviewItems();
         }
 
-        function renderReviewList() {
-            const container = document.getElementById('reviewListContainer');
+        // RENDER REVIEW LIST
+        function renderReviewItems() {
+            const container = document.getElementById('review-items-container');
             container.innerHTML = '';
-            const labels = ['A', 'B', 'C', 'D'];
 
-            examQuestions.forEach((q, idx) => {
-                const userAns = userAnswers[idx];
-                const isCorrect = userAns === q.correctIndex;
-                const isFlagged = flaggedItems[idx];
+            examData.forEach((q, idx) => {
+                const userChoice = userAnswers[idx];
+                const isCorrect = userChoice === q.correct;
+                const isFlagged = flaggedQuestions.has(idx);
 
-                if (currentFilter === 'incorrect' && isCorrect) return;
-                if (currentFilter === 'flagged' && !isFlagged) return;
+                if (currentReviewFilter === 'incorrect' && isCorrect) return;
+                if (currentReviewFilter === 'flagged' && !isFlagged) return;
 
-                const card = document.createElement('div');
-                card.className = `p-6 bg-white dark:bg-slate-800 rounded-xl border shadow-sm space-y-4 ${
-                    isCorrect ? 'border-emerald-200 dark:border-emerald-900/50' : 'border-rose-200 dark:border-rose-900/50'
-                }`;
+                const itemCard = document.createElement('div');
+                itemCard.className = "pt-6 space-y-3";
+                
+                let statusBadge = isCorrect 
+                    ? `<span class="bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 text-[11px] px-2.5 py-1 rounded-md font-bold"><i class="fa-solid fa-check"></i> Correct</span>`
+                    : `<span class="bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 text-[11px] px-2.5 py-1 rounded-md font-bold"><i class="fa-solid fa-xmark"></i> Incorrect / Omitted</span>`;
 
-                let optionsHtml = '';
-                q.options.forEach((optText, optIdx) => {
-                    let style = "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/40";
-                    let badge = "";
+                let optionsListHtml = '';
+                q.options.forEach((optText, oIdx) => {
+                    const letter = String.fromCharCode(65 + oIdx);
+                    let optStyle = "border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50";
 
-                    if (optIdx === q.correctIndex) {
-                        style = "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 font-medium";
-                        badge = `<span class="ml-auto text-xs font-bold px-2 py-0.5 bg-emerald-600 text-white rounded">Correct Key</span>`;
-                    } else if (optIdx === userAns && !isCorrect) {
-                        style = "border-rose-500 bg-rose-50 dark:bg-rose-950/30 text-rose-900 dark:text-rose-200";
-                        badge = `<span class="ml-auto text-xs font-bold px-2 py-0.5 bg-rose-600 text-white rounded">Your Choice</span>`;
+                    if (oIdx === q.correct) {
+                        optStyle = "border-emerald-500 bg-emerald-50/60 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 font-semibold";
+                    } else if (oIdx === userChoice && !isCorrect) {
+                        optStyle = "border-rose-500 bg-rose-50/60 dark:bg-rose-950/30 text-rose-900 dark:text-rose-200 font-semibold";
                     }
 
-                    optionsHtml += `
-                        <div class="p-3 rounded-lg border text-sm flex items-center space-x-3 ${style}">
-                            <span class="w-6 h-6 rounded-full border flex items-center justify-center text-xs font-bold shrink-0">${labels[optIdx]}</span>
+                    optionsListHtml += `
+                        <div class="p-3 rounded-lg border text-sm flex items-start space-x-2 ${optStyle}">
+                            <span class="font-bold text-xs uppercase">${letter}.</span>
                             <span>${optText}</span>
-                            ${badge}
                         </div>
                     `;
                 });
 
-                let distractorHtml = q.distractorAnalysis.map(da => `<li class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">${da}</li>`).join('');
-
-                card.innerHTML = `
-                    <div class="flex justify-between items-start pb-2 border-b border-slate-100 dark:border-slate-700">
+                itemCard.innerHTML = `
+                    <div class="flex justify-between items-center gap-2">
                         <div class="flex items-center space-x-2">
-                            <span class="px-2.5 py-1 text-xs font-bold rounded ${isCorrect ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'}">
-                                ${isCorrect ? 'Correct' : 'Incorrect'}
-                            </span>
-                            <span class="text-xs font-semibold text-slate-500">Item #${idx + 1} (${q.id})</span>
+                            <span class="font-bold text-sm text-gray-500">Item ${idx + 1}</span>
+                            ${statusBadge}
+                            ${isFlagged ? `<span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded font-semibold"><i class="fa-solid fa-bookmark"></i> Flagged</span>` : ''}
                         </div>
-                        <span class="text-xs px-2.5 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full">${q.domain}</span>
+                        <span class="text-xs text-gray-400 font-medium">${q.domain}</span>
                     </div>
 
-                    <p class="font-medium text-slate-800 dark:text-slate-100 leading-relaxed text-sm md:text-base">${q.vignette}</p>
+                    <p class="font-medium text-gray-900 dark:text-gray-100 text-base">${q.stem}</p>
 
-                    <div class="space-y-2">${optionsHtml}</div>
+                    <div class="space-y-2 pt-1">
+                        ${optionsListHtml}
+                    </div>
 
-                    <div class="p-4 bg-slate-50 dark:bg-slate-900/80 rounded-lg border border-slate-200 dark:border-slate-700 space-y-3">
-                        <div>
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-prometric-blue dark:text-sky-400 flex items-center space-x-1">
-                                <i class="fa-solid fa-lightbulb"></i>
-                                <span>Clinical Rationale</span>
-                            </h4>
-                            <p class="text-xs md:text-sm text-slate-700 dark:text-slate-300 mt-1 leading-relaxed">${q.rationale}</p>
+                    <div class="p-4 rounded-lg bg-amber-50/80 dark:bg-slate-900/60 border border-amber-200 dark:border-slate-700 text-xs md:text-sm space-y-1">
+                        <div class="font-bold text-amber-800 dark:text-amber-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-lightbulb"></i> Evidence-Based Clinical Rationale:
                         </div>
-                        
-                        <div class="pt-2 border-t border-slate-200 dark:border-slate-800">
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Psychometric Distractor Analysis</h4>
-                            <ul class="space-y-1 list-disc list-inside">
-                                ${distractorHtml}
-                            </ul>
-                        </div>
+                        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">${q.rationale}</p>
                     </div>
                 `;
 
-                container.appendChild(card);
+                container.appendChild(itemCard);
             });
         }
 
-        function setReviewFilter(filterType) {
-            currentFilter = filterType;
-            document.querySelectorAll('.review-filter-btn').forEach(btn => {
-                if (btn.dataset.filter === filterType) {
-                    btn.className = "review-filter-btn px-3 py-1 bg-prometric-blue text-white rounded text-xs font-medium";
+        function filterReview(filter) {
+            currentReviewFilter = filter;
+            ['all', 'incorrect', 'flagged'].forEach(f => {
+                const btn = document.getElementById(`review-filter-${f}`);
+                if (f === filter) {
+                    btn.className = "px-3 py-1.5 rounded bg-white dark:bg-slate-800 text-scfhs-700 dark:text-blue-300 font-bold shadow-xs";
                 } else {
-                    btn.className = "review-filter-btn px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-xs font-medium";
+                    btn.className = "px-3 py-1.5 rounded text-gray-600 dark:text-gray-300";
                 }
             });
-            renderReviewList();
+            renderReviewItems();
         }
 
         function restartExam() {
-            if (confirm("Are you sure you want to reset and restart your examination?")) {
-                localStorage.removeItem('scfhs_tech_prometric_state_v5');
-                location.reload();
+            if (confirm("Reset all stored progress and restart the 220-question exam from item 1?")) {
+                localStorage.removeItem('scfhs_answers_v2');
+                localStorage.removeItem('scfhs_flags_v2');
+                localStorage.removeItem('scfhs_time_v2');
+                userAnswers = {};
+                flaggedQuestions.clear();
+                timeRemainingSeconds = 4 * 60 * 60;
+                document.getElementById('results-screen').classList.add('hidden');
+                document.getElementById('exam-screen').classList.remove('hidden');
+                buildQuestionGrid();
+                renderQuestion(0);
+                startTimer();
             }
+        }
+
+        // UTILITIES
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const icon = document.getElementById('theme-icon');
+            if (document.documentElement.classList.contains('dark')) {
+                icon.className = "fa-solid fa-sun text-amber-300";
+            } else {
+                icon.className = "fa-solid fa-moon";
+            }
+        }
+
+        function initTheme() {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').className = "fa-solid fa-sun text-amber-300";
+            }
+        }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.toggle('hidden');
+        }
+
+        // CALCULATOR ENGINE
+        let calcVal = "0";
+        function calcPress(val) {
+            if (calcVal === "0" && val !== ".") calcVal = "";
+            calcVal += val;
+            document.getElementById('calc-display').value = calcVal;
+        }
+        function calcClear() {
+            calcVal = "0";
+            document.getElementById('calc-display').value = calcVal;
+        }
+        function calcEqual() {
+            try {
+                calcVal = eval(calcVal).toString();
+            } catch (e) {
+                calcVal = "Error";
+            }
+            document.getElementById('calc-display').value = calcVal;
         }
     </script>
 </body>
